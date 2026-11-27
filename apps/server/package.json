@@ -1,0 +1,23 @@
+{
+  "name": "@daming/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@daming/auditor": "workspace:*",
+    "@daming/autoloop": "workspace:*",
+    "@daming/connectors-lulu": "workspace:*",
+    "@daming/contracts": "workspace:*",
+    "@daming/core": "workspace:*",
+    "@daming/governance": "workspace:*",
+    "@daming/model-gateway": "workspace:*",
+    "@daming/planning": "workspace:*",
+    "@daming/ports": "workspace:*",
+    "@daming/session-contracts": "workspace:*",
+    "@daming/source-protocol": "workspace:*",
+    "@daming/store-sqlite": "workspace:*",
+    "@daming/worker-process": "workspace:*",
+    "@daming/workers": "workspace:*",
+    "@larksuiteoapi/node-sdk": "1.76.0"
+  }
+}

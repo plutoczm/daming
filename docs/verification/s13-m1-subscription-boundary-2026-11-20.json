@@ -1,0 +1,16 @@
+{
+  "stage": "S13",
+  "round": 9,
+  "module": "M1 订阅账号供给边界（RE 实证）：WorkBuddy 的 chat/额度需官方 App 设备签名，纯 token 不可自持",
+  "observedAt": "2026-11-20T00:40:00Z",
+  "findings": {
+    "checkinStatus": "POST /v2/billing/meter/checkin-activity-status 用裸 Bearer 返回 200（可读 active/today_checked_in）",
+    "resourceSummary": "POST /billing/meter/get-user-resource-summary 用裸 Bearer 返回 403 {code:10085,'请求不合法'}（额度读不了）",
+    "chat": "同理需 plugin 签名/设备令牌；Magpie 自身对 WorkBuddy 也只能用官方 App 那套（own-app），无法绕过 X-Device-Token",
+    "implication": "workbuddy/codex/kiro/zcode 这类**订阅账号**的 chat/额度**无法用纯 token 自持**（平台设备级鉴权）；Daming 自持供给的现实范围 = **官方 API（DeepSeek/OpenAI…）+ 本地（Ollama）**；订阅 chat/额度保持“可选（经 Magpie 或官方 App）”，不计入 M7 移除阻塞（需在 spec 明确）"
+  },
+  "code": "WorkBuddyPlatform.readQuota 在非 200/异常时优雅返回 {platform:'workbuddy'}（不伪造数字）；workbuddy 测试 6 项通过",
+  "quality": { "tsc": "0", "workbuddyTests": "6/6" },
+  "next": ["M7 spec 变更草案：REQ-005 明确 Daming 自持=官方API+本地，订阅 chat 可选", "M2 zcode 亦同受限（保留 Magpie/官方App）", "补齐 M1 官方 API 供应商（DeepSeek 已通，可加 OpenAI 等）"],
+  "fabricated": false
+}

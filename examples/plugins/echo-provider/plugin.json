@@ -1,0 +1,8 @@
+{
+  "id": "echo",
+  "name": "Echo (example plugin)",
+  "version": "1.0.0",
+  "kind": "provider",
+  "models": ["echo-1"],
+  "description": "Sample Daming provider plugin: echoes the last user message. Demonstrates drop-in providers."
+}

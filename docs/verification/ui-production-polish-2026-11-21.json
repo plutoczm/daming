@@ -1,0 +1,42 @@
+{
+  "task": "产品化打磨：应用菜单、项目/供应商/Agent 精简、编队主 Agent、通知连接、平台额度",
+  "date": "2026-11-21T00:50:00+08:00",
+  "implemented": {
+    "appMenu": "Electron 自定义菜单：文件（新建窗口/新聊天/新项目/打开文件夹/关闭/退出）、编辑、视图（页面 Ctrl+1…8）、窗口、帮助（帮助/设置/关于）；左侧底部增加设置/帮助",
+    "rail": "移除无用的「本机工作空间」卡片；顶栏去掉 DAMING LOCAL HOST、搜索、运行状态等冗余文案，仅保留标题 + 本机用户",
+    "projects": "只保留两种入口：接入已有目录、上传 spec/plan_baseline；移除新建空目录；plan_runtime/progress 由 Agent 维护；打开文件夹菜单可直接唤起目录选择",
+    "providersAgents": "供应商/Agent 去掉字母头像和长描述，改为紧凑卡片、状态 pill、模型 chips；供应商页文案收敛",
+    "crew": "编队默认改为「主 Agent 自动分派（推荐）」，同时保留平台规则分派；每个子目标显示 Agent、供应商、模型、理由，可一键派发",
+    "notifications": "每个通道增加「连接」引导弹窗：跳转飞书/企微/微信/QQ 官方页面 → 粘贴 Webhook → 保存并测试；远程链接可复制、检测",
+    "platform": "平台状态参考 Magpie：读取本机 ~/.config/magpie/quotas.json，展示 Codex 5h/7d、Kiro Credits、Qoder 等真实额度；移除 Codex 真实探针和冗长文字",
+    "research": "新增 docs/reference-superagent-crew-2026-11-21.md，汇总 Super-Agent/DSH/HiFox/T3/Autoloop 的编队与通知模式"
+  },
+  "evidence": {
+    "overview": ".cache/final3-overview2.png",
+    "platform": ".cache/final4-platform.png",
+    "providers": ".cache/final4-providers.png",
+    "projects": ".cache/final4-projects.png",
+    "notifications": ".cache/final4-notifications.png",
+    "crew": ".cache/crew-plan-final.png",
+    "researchDoc": "docs/reference-superagent-crew-2026-11-21.md"
+  },
+  "runtimeChecks": {
+    "platformQuotas": "GET /api/magpie/local-quotas -> Codex 5h/7d、Kiro Credits 19.49/50、Qoder 0 credits；平台页显示供应商 3 / 额度卡 3",
+    "crewDispatch": "编队 4 子目标全部派发：DSH/dsh、Codex/real、Claude/claude ×2，skipped=[]",
+    "menu": "窗口菜单显示 文件/编辑/视图/窗口/帮助；文件含新建窗口、新聊天、新项目、打开文件夹、关闭、退出；视图含 Ctrl+1…8 页面跳转"
+  },
+  "tests": {
+    "fullCheck": "corepack pnpm check → 549 tests / 547 pass / 2 skipped / 0 fail, tsc root+web 0, 208 boundaries, exit 0 (.cache/check-final-turn9.log)"
+  },
+  "cleanup": {
+    "at": "2026-11-21T00:58:10+08:00",
+    "backup": ".cache/daming-testdata-backup-20261121-005810",
+    "cleared": [
+      "host/tasks.sqlite(+wal/shm)", "host/project-inputs", "host/crew-plans.json",
+      "host/model-bindings", "projects/", "local-deliveries/",
+      "codex-real-workspaces/", "dsh-real-workspaces/", "claude-real-workspaces/",
+      "history/", "notification-hub.recent"
+    ],
+    "verified": "GET /api/tasks -> []; /api/projects -> []; /api/crew -> []; notification recent -> []"
+  }
+}

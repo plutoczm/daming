@@ -1,0 +1,27 @@
+{
+  "stage": "S13",
+  "module": "M6 agent onboarding (Claude Code -> Daming gateway -> Ollama)",
+  "observedAt": "2026-11-19T16:17:30.540Z",
+  "realAgentTurn": true,
+  "gatewayUrl": "http://127.0.0.1:49626",
+  "claudeExe": true,
+  "configFile": "claude.env",
+  "configPreview": "ANTHROPIC_BASE_URL=http://127.0.0.1:49626 | ANTHROPIC_API_KEY=daming | CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 | DISABLE_TELEMETRY=1",
+  "claudeExit": 0,
+  "claudeStdout": "OK.",
+  "claudeStderrTail": "sn't recognize the model \"qwen3:8b\", so it assumes a context window of 1m tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.\n[claude-code:unrecognized_model] {\"model\":\"qwen3:8b\",\"query_source\":\"sdk\"}\n",
+  "usage": {
+    "requests": 1,
+    "inputTokens": 3834,
+    "outputTokens": 93,
+    "cachedTokens": 3,
+    "byModel": {
+      "qwen3:8b": {
+        "requests": 1,
+        "inputTokens": 3834,
+        "outputTokens": 93,
+        "cachedTokens": 3
+      }
+    }
+  }
+}

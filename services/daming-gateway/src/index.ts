@@ -1,0 +1,10 @@
+export { createGatewayServer, listen } from './gateway.ts';
+export type { GatewayOptions, GatewayHandle } from './gateway.ts';
+export { renderAgentConfig, writeAgentConfigs } from './onboarding.ts';
+export type { AgentConfigFile, AgentEndpoint, AgentId } from './onboarding.ts';
+export { anthropicCompatiblePlugin, openAICompatiblePlugin, openAIResponsesPlugin, ProviderRegistry } from './plugins.ts';
+export type { ProviderPlugin, ProviderResult } from './plugins.ts';
+export { parseGatewayConfig, pluginsFromConfig, gatewayConfigModels } from './config.ts';
+export type { GatewayConfig, ProviderApi, ProviderConfig } from './config.ts';
+export { installPlugin, listPlugins, loadPluginDir, loadPlugins, pluginDisabled, providerPluginsFromLoaded, removePlugin, setPluginEnabled, validateManifest } from './plugin-framework.ts';
+export type { DamingPluginImpl, DamingPluginManifest, LoadedPlugin, LoadReport, PluginChatResult, PluginContext, PluginKind, PluginListItem } from './plugin-framework.ts';

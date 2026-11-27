@@ -1,0 +1,68 @@
+{
+  "stage": "S13",
+  "module": "M1 multi-provider supply + M3 routing (Ollama + DeepSeek official)",
+  "observedAt": "2026-11-19T16:23:12.179Z",
+  "realModelInference": true,
+  "results": {
+    "models": {
+      "object": "list",
+      "data": [
+        {
+          "id": "qwen3:8b",
+          "object": "model",
+          "owned_by": "daming"
+        },
+        {
+          "id": "deepseek-chat",
+          "object": "model",
+          "owned_by": "daming"
+        }
+      ]
+    },
+    "ollama": {
+      "content": "OK.",
+      "usage": {
+        "prompt_tokens": 20,
+        "prompt_tokens_details": {
+          "cached_tokens": 19
+        },
+        "completion_tokens": 133,
+        "total_tokens": 153
+      }
+    },
+    "deepseekConfigured": true,
+    "deepseek": {
+      "content": "OK",
+      "usage": {
+        "prompt_tokens": 14,
+        "completion_tokens": 1,
+        "total_tokens": 15,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 14
+      }
+    },
+    "usageSummary": {
+      "requests": 2,
+      "inputTokens": 34,
+      "outputTokens": 134,
+      "cachedTokens": 19,
+      "byModel": {
+        "qwen3:8b": {
+          "requests": 1,
+          "inputTokens": 20,
+          "outputTokens": 133,
+          "cachedTokens": 19
+        },
+        "deepseek-chat": {
+          "requests": 1,
+          "inputTokens": 14,
+          "outputTokens": 1,
+          "cachedTokens": 0
+        }
+      }
+    }
+  }
+}

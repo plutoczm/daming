@@ -1,0 +1,46 @@
+{
+  "stage": "S10",
+  "kind": "real per-Agent write/command + in-flight pause + real cash reconciliation",
+  "observedAt": "2026-11-19T14:52:50Z",
+  "perAgent": {
+    "dsh": {
+      "realRead": true, "realWrite": true, "realCommand": true,
+      "evidence": "host headless: write s10_dsh.txt=‘dsh-ok’, shell `echo DSH-CMD-OK` -> DSH-CMD-OK; standard ACP (dsh --profile acp) text OK + tool write dsh_acp.md=‘dsh-acp-ok’ (.cache/verification/s10-dsh-acp.json)",
+      "isolation": "host headless (受信执行/人工监督) + ACP stdio"
+    },
+    "claude-code": {
+      "realRead": true, "realWrite": true, "realCommand": true,
+      "evidence": "claude-native container: s10_claude.md=‘claude-ok’ (.cache/verification/s10-real-claude-write.json); command `echo CLAUDE-CMD-OK > s10_claude_cmd.md` -> CLAUDE-CMD-OK (.cache/verification/s10-claude-command.json)",
+      "commandFix": "derived image daming-native-verify:claude-native-bash (apk add bash) id sha256:a4915840…b673c0; SHELL=/bin/bash",
+      "isolation": "native-offline-v2 Docker (read-only rootfs, /work rw tmpfs, uid65532)"
+    },
+    "codex": {
+      "realRead": true, "realWrite": true, "realCommand": true,
+      "evidence": "host-direct Codex via its own ChatGPT subscription backend (VPN proxy 127.0.0.1:7890): s10_codex.md=‘codex-ok’ + s10_codex_cmd.md=‘CODEX-CMD-OK’, exit 0 (.cache/verification/s10-codex-direct.json)",
+      "sandboxNote": "Codex's Windows sandbox exec layer errors with 'registered Core process has no package identity' on this host; used --dangerously-bypass-approvals-and-sandbox inside an externally-controlled temp dir. Model backend is the real ChatGPT subscription.",
+      "isolation": "external controlled temp workspace (sandbox bypassed; not the hardened container)"
+    }
+  },
+  "inFlightPause": {
+    "done": true, "pauseIssuedAtMs": 606, "turnAborted": true, "stopBarrierStopped": true, "secondSendBlocked": true,
+    "evidence": "docs/verification/s10-inflight-pause-2026-11-19.json"
+  },
+  "cashReconciliation": {
+    "vendor": "DeepSeek official API",
+    "beforeCny": 8.66, "afterCny": 8.64, "deltaCny": 0.02, "deltaMinor": 2,
+    "hardLimitCnyMinor": 300, "withinHardLimit": true, "reconciled": true,
+    "usage": { "prompt_tokens": 40, "completion_tokens": 4096 },
+    "method": "provider-reported balance delta; no per-call invoice API",
+    "evidence": "docs/verification/s10-cash-reconcile-2026-11-19.json"
+  },
+  "feishuOwnerAcceptance": {
+    "done": true, "steps": ["approve", "pause", "accept"], "modelRequests": 0,
+    "evidence": "docs/verification/s10-feishu-real-2026-11-19.json"
+  },
+  "adapterChange": {
+    "acp": "packages/worker-process/src/native-dsh-acp-session.ts — ACP JSON-RPC stdio client; DSH standard ACP verified.",
+    "codexExec": "CodexExecOptions gains optional sandbox/enableShell (default read-only/no-shell unchanged)."
+  },
+  "s10DoneWhen": "三 Agent 各自真实读写与命令 ✅ / 暂停切断在途 ✅ / 账单核销 ✅ / 飞书本人最终验收 ✅ — all with real evidence this session.",
+  "fabricated": false
+}

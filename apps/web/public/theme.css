@@ -1,0 +1,284 @@
+/* =========================================================================
+   UI v6 · Day / Night theme system (2026-11-25)
+   One switch, two complete palettes. Every surface colour is a token, so the
+   app is always fully light or fully dark — never half of each.
+   • day   : warm paper (the v5 look), dark ink on off-white
+   • night : deep ink canvas, warm-grey text, same single accent
+   The first paint already has the right theme (public/theme-boot.js), and the
+   resolved theme lives on <html data-theme="day|night">.
+   ========================================================================= */
+:root,
+:root[data-theme="day"] {
+  color-scheme: light;
+  --canvas: #f7f6f2;
+  --canvas-2: #f0ede6;
+  --surface: #ffffff;
+  --surface-2: #faf9f5;
+  --surface-3: #f2efe8;
+  --line: #e7e3da;
+  --line-2: #f0ede6;
+  --line-strong: #d9d3c6;
+  --ink: #1a1916;
+  --ink-2: #3b3a34;
+  --muted: #6b6961;
+  --muted-2: #868379;
+  --brand: #4a45e1;
+  --brand-2: #3a36c2;
+  --brand-soft: #eeecfd;
+  --brand-line: #dcd9f9;
+  --ok: #16794a;
+  --ok-soft: #e6f5ec;
+  --warn: #a1600c;
+  --warn-soft: #fbf1df;
+  --bad: #bf3c3c;
+  --bad-soft: #fbeceb;
+  --info: #0c6f8a;
+  --info-soft: #e6f3f8;
+  --rail: #faf9f5;
+  --rail-2: #ffffff;
+  --rail-fg: #4a4842;
+  --rail-muted: #918d84;
+  --rail-line: #e7e3da;
+  --rail-active-bg: #ffffff;
+  --rail-active-edge: #4a45e1;
+  --accent-tile: #f2f0ff;
+  --accent-tile-2: #e6e3fd;
+  --inner-light: rgba(255, 255, 255, .68);
+  --inner-light-strong: rgba(255, 255, 255, .85);
+  --sheen: rgba(74, 69, 225, .075);
+  --kpi-accent-bg: #faf9ff;
+  --kpi-accent-a: #fdfdff;
+  --kpi-accent-b: #f3f1fe;
+  --goal-bg-a: #fbfaff;
+  --goal-bg-b: #f4f2ff;
+  --overlay: rgba(26, 25, 22, .34);
+  --shadow-xs: 0 1px 2px rgba(38, 32, 22, .05);
+  --shadow: 0 1px 1px rgba(38, 32, 22, .04), 0 2px 6px -1px rgba(38, 32, 22, .05), 0 12px 28px -14px rgba(38, 32, 22, .12);
+  --shadow-hover: 0 1px 1px rgba(38, 32, 22, .05), 0 8px 18px -6px rgba(38, 32, 22, .10), 0 24px 48px -22px rgba(38, 32, 22, .18);
+  --shadow-lg: 0 32px 80px -20px rgba(20, 18, 14, .42);
+  --ring: 0 0 0 3px rgba(74, 69, 225, .22);
+  --ambient-a: rgba(255, 226, 194, .55);
+  --ambient-b: rgba(214, 221, 255, .45);
+  --ambient-noise: .05;
+  --seg-track: var(--surface-3);
+  --seg-thumb: var(--surface);
+}
+
+:root[data-theme="night"] {
+  color-scheme: dark;
+  --canvas: #131317;
+  --canvas-2: #0e0e12;
+  --surface: #1b1b21;
+  --surface-2: #202027;
+  --surface-3: #26262e;
+  --line: #2c2c35;
+  --line-2: #24242c;
+  --line-strong: #3c3c47;
+  --ink: #eceae4;
+  --ink-2: #cfccc4;
+  --muted: #9d9a93;
+  --muted-2: #78757e;
+  --brand: #8b87ff;
+  --brand-2: #7a76f0;
+  --brand-soft: #24233a;
+  --brand-line: #383660;
+  --ok: #52c78b;
+  --ok-soft: #17301f;
+  --warn: #e0a35a;
+  --warn-soft: #33260f;
+  --bad: #f08a8a;
+  --bad-soft: #38201f;
+  --info: #6cc4dc;
+  --info-soft: #10282f;
+  /* rail: same deep family as the workspace, one step darker, so the shell
+     still reads as one material instead of a black slab bolted to a light page */
+  --rail: #101014;
+  --rail-2: #17171d;
+  --rail-fg: #c9c6c0;
+  --rail-muted: #7f7c85;
+  --rail-line: #26262e;
+  --rail-active-bg: #23222f;
+  --rail-active-edge: #8b87ff;
+  --accent-tile: #26243a;
+  --accent-tile-2: #2e2b47;
+  --inner-light: rgba(255, 255, 255, .045);
+  --inner-light-strong: rgba(255, 255, 255, .07);
+  --sheen: rgba(139, 135, 255, .10);
+  --kpi-accent-bg: #1e1c2c;
+  --kpi-accent-a: #22202f;
+  --kpi-accent-b: #1b1a26;
+  --goal-bg-a: #201e2e;
+  --goal-bg-b: #1a1926;
+  --overlay: rgba(0, 0, 0, .52);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, .35);
+  --shadow: 0 1px 1px rgba(0, 0, 0, .30), 0 2px 6px -1px rgba(0, 0, 0, .35), 0 14px 30px -16px rgba(0, 0, 0, .55);
+  --shadow-hover: 0 1px 1px rgba(0, 0, 0, .35), 0 10px 22px -8px rgba(0, 0, 0, .45), 0 26px 52px -24px rgba(0, 0, 0, .65);
+  --shadow-lg: 0 36px 90px -24px rgba(0, 0, 0, .75);
+  --ring: 0 0 0 3px rgba(139, 135, 255, .30);
+  --ambient-a: rgba(255, 196, 128, .07);
+  --ambient-b: rgba(120, 128, 255, .10);
+  --ambient-noise: .09;
+  --seg-track: #26262e;
+  --seg-thumb: #34343f;
+}
+
+/* ---- chrome that the token swap must also repaint ----------------------- */
+html { background: var(--canvas); }
+body { background: var(--canvas); color: var(--ink); }
+.app-main {
+  background-color: var(--canvas);
+  /* warm paper glow only — no full-page grain, which reads as dirty grey */
+  background-image:
+    radial-gradient(1200px 560px at 4% -18%, var(--ambient-a), transparent 66%),
+    radial-gradient(900px 480px at 100% -10%, var(--ambient-b), transparent 68%);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+
+/* rail: light in day, deep in night — but always the same material as the page */
+.app-rail {
+  background: linear-gradient(180deg, var(--rail) 0%, var(--rail-2) 100%);
+  border-right: 1px solid var(--rail-line);
+}
+.rail-brand b { color: var(--ink); }
+.rail-brand span { color: var(--rail-muted); }
+.rail-group { color: var(--rail-muted); }
+.rail-nav button { color: var(--rail-fg); }
+.rail-nav .ic { color: currentColor; }
+.rail-nav button:hover { background: var(--surface-3); color: var(--ink); }
+.rail-nav button.active {
+  color: var(--ink); font-weight: 600;
+  background: var(--rail-active-bg);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-xs);
+}
+.rail-nav button.active .ic { color: var(--rail-active-edge); }
+.rail-nav button.active::before { background: var(--rail-active-edge); box-shadow: none; }
+.rail-actions button { color: var(--rail-fg); }
+.rail-actions button:hover { background: var(--surface-3); color: var(--ink); }
+.rail-foot { border-top: 1px solid var(--rail-line); }
+.rail-version { color: var(--rail-muted); }
+
+/* topbar + captions */
+.topbar { background: color-mix(in srgb, var(--canvas) 82%, transparent); border-bottom: 1px solid var(--line); }
+.topbar-crumb .crumb-brand { color: var(--muted-2); }
+.topbar-crumb .crumb-sep { color: var(--line-strong); }
+.topbar h1, .topbar-crumb h1 { color: var(--ink) !important; -webkit-text-fill-color: var(--ink) !important; }
+
+/* accent tiles / branded chips that used to hard-code pale lilac */
+.quick-ic, .pv-mark, .dm-node .big, .empty-orb {
+  background: linear-gradient(160deg, var(--accent-tile) 0%, var(--accent-tile-2) 100%);
+  color: var(--brand);
+  box-shadow: inset 0 1px 0 var(--inner-light-strong);
+}
+.kpi.accent {
+  background-color: var(--kpi-accent-bg);
+  background-image:
+    radial-gradient(260px circle at var(--sheen-x, -999px) var(--sheen-y, -999px), var(--sheen), transparent 62%),
+    linear-gradient(180deg, var(--kpi-accent-a) 0%, var(--kpi-accent-b) 100%);
+}
+.crew-node--root, .exec-node--goal {
+  background-image:
+    radial-gradient(260px circle at var(--sheen-x, -999px) var(--sheen-y, -999px), var(--sheen), transparent 62%),
+    linear-gradient(180deg, var(--goal-bg-a), var(--goal-bg-b));
+}
+.scroll-progress span { background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%); }
+.crew-progress__track span { background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%); }
+
+/* every card's inner highlight must follow the theme, not a white line */
+.kpi, .quick-tile, .status-card, .inbox-card, .provider-card, .agent-card, .crew-node, .board-card,
+.exec-node, .intake-card, .platform-hero, .quota-card, .crew-kpis > div, .lulu-card, .create-card,
+.panel, .status-panel, .project-row, .notify-card, .settings-row, .help-card, .remote-card,
+.recent-notifications, .platform-accounts, .intake-form, .crew-plan, .crew-history, .detected-agents,
+.exec-graph, .crew-compose, .dm-card, .task-board, .provider-grid.pv-list {
+  box-shadow: var(--shadow), inset 0 1px 0 var(--inner-light);
+}
+.kpi:hover, .quick-tile:hover, .dm-card:hover {
+  box-shadow: var(--shadow-hover), inset 0 1px 0 var(--inner-light-strong);
+}
+
+/* overlays: drawer, palette, toasts */
+.drawer-backdrop, .palette-backdrop { background: var(--overlay); }
+.task-drawer { background: var(--surface); border-left: 1px solid var(--line); box-shadow: var(--shadow-lg); }
+.drawer-head { background: var(--surface); border-bottom: 1px solid var(--line); }
+.drawer-close:hover { background: var(--surface-3); color: var(--ink); }
+.palette { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-lg); }
+.palette input { background: var(--surface-2); color: var(--ink); }
+.palette li:hover, .palette li[aria-selected="true"] { background: var(--brand-soft); }
+.toast { background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow-hover); }
+.toast .toast-text { color: var(--ink); }
+.toast-close { color: var(--muted); }
+.toast-close:hover { color: var(--ink); }
+
+/* inputs, buttons, pills */
+.primary-btn, .approve-button, .create-card button, .lulu-submit-form button {
+  background: linear-gradient(180deg, var(--brand) 0%, var(--brand-2) 100%);
+  color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .10), 0 8px 18px -10px var(--brand-line);
+}
+html[data-theme="night"] .primary-btn, html[data-theme="night"] .approve-button,
+html[data-theme="night"] .create-card button, html[data-theme="night"] .lulu-submit-form button { color: #10101a; }
+.ghost-btn, .ghost-button, .cmd-btn { background: var(--surface); color: var(--ink-2); border: 1px solid var(--line); }
+.cmd-btn kbd { background: var(--surface-3); border-color: var(--line); color: var(--muted); }
+.link-btn { color: var(--brand); }
+.chip, .model-chips .chip { background: var(--surface-3); color: var(--ink-2); }
+.dm-m { background: var(--surface-2); color: var(--ink-2); border-color: var(--line); }
+
+/* board / exec lanes */
+.board-col { background: var(--surface-2); border-color: var(--line-2); }
+.board-col-body, .crew-plans { background: transparent; }
+.exec-col {
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--canvas) 100%);
+  border-color: var(--line-2);
+}
+.exec-col__empty { background: var(--surface); border-color: var(--line); }
+.crew-compose { background: var(--surface-2); }
+.crew-compose:hover { background: var(--surface); }
+.crew-compose > summary { color: var(--ink-2); }
+.crew-compose > summary::before { background: var(--brand-soft); color: var(--brand); }
+
+/* the theme switch itself (top bar) */
+.theme-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+  border-radius: 999px; padding: 5px 11px 5px 9px; font-size: 11.5px; font-weight: 550;
+  box-shadow: var(--shadow-xs);
+  transition: color var(--dur-2), border-color var(--dur-2), box-shadow var(--dur-2), transform var(--dur-1) var(--ease);
+}
+.theme-toggle:hover { color: var(--ink); border-color: var(--line-strong); box-shadow: var(--shadow); }
+.theme-toggle:active { transform: scale(.97); }
+.theme-toggle__ic { width: 14px; height: 14px; flex: none; }
+.theme-toggle__label { white-space: nowrap; }
+
+/* segment control (settings + wherever a small choice is needed) */
+.seg {
+  display: inline-flex; padding: 2px; gap: 2px; border-radius: 10px;
+  background: var(--seg-track); border: 1px solid var(--line);
+}
+.seg button {
+  border: 0; background: transparent; color: var(--muted);
+  padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 550;
+  transition: background var(--dur-2) var(--ease), color var(--dur-2), box-shadow var(--dur-2);
+}
+.seg button:hover { color: var(--ink-2); }
+.seg button.on {
+  background: var(--seg-thumb); color: var(--ink); font-weight: 650;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .10), inset 0 1px 0 var(--inner-light);
+}
+.seg--compact button { padding: 3px 9px; font-size: 11px; }
+
+/* settings page groups */
+.settings-group { display: flex; flex-direction: column; gap: 8px; }
+.settings-group-title { font-size: 11px; font-weight: 650; letter-spacing: .14em; color: var(--muted-2); padding-left: 2px; }
+.settings-row--static { cursor: default; }
+.settings-row--static:hover { border-color: var(--line) !important; box-shadow: var(--shadow) !important; }
+
+/* keep the night theme honest for the few utility bits that were white */
+html[data-theme="night"] ::selection { background: rgba(139, 135, 255, .28); }
+html[data-theme="night"] .status-pill, html[data-theme="night"] .state-pill { border-color: transparent; }
+html[data-theme="night"] .empty-art svg circle[fill="#4f46e5"] { fill: var(--brand); }
+html[data-theme="night"] .spinner-overlay { background: var(--overlay); }
+
+@media (max-width: 720px) {
+  .theme-toggle__label { display: none; }
+  .theme-toggle { padding: 6px 8px; }
+}

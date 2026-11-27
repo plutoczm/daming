@@ -1,0 +1,23 @@
+{
+  "stage": "S13",
+  "round": 6,
+  "module": "M2 收尾 — Linux 常驻守护真实 WorkBuddy 签到（Daming 自持，无 Magpie 运行时）",
+  "observedAt": "2026-11-20T00:30:00Z",
+  "deploy": { "host": "gdwyy70", "dir": "/mnt/ext-disk/czm2025/Projects/daming-checkin", "daemonPid": 275910, "config": "config.json(0600)：platform.kind=workbuddy, accounts=2 个真实 WorkBuddy token(owner=linux)" },
+  "realResult": {
+    "endpoint": "https://www.workbuddy.cn/v2/billing/meter/checkin-activity-status → /daily-checkin",
+    "report": "[{accountId:'workbuddy', kind:'already', credits:100}, {accountId:'workbuddy_tnpqwu', kind:'already', credits:100}]",
+    "conclusion": "学校 Linux 守护用真实 WorkBuddy 账号读取真实 status；今日 Magpie 已签，Daming 正确判 `already` 且不重复 claim（幂等）。"
+  },
+  "fixes": [
+    "WorkBuddy 响应是 {code,msg,data:{active,today_checked_in,…}}：按 data 解包（此前误读顶层导致 status 假 active:false、误触发 claim）。",
+    "claim 返回 code 10001「今天已签到」→ 归为 already（另有 1001 已签 / 1002 不合格 / 1003 结束）。"
+  ],
+  "daemon": "services/checkin-agent/remote/checkin-daemon.mjs 新增 platform.kind=workbuddy（status→daily-checkin，Bearer account.token；401→needs_human 不绕过）；HTTP 改用 node:http/https（避免 fetch keep-alive 退出崩溃）。",
+  "tests": { "count": 8, "pass": 8, "files": ["services/checkin-agent/tests/workbuddy.test.ts (5)", "services/checkin-agent/tests/daemon.test.ts (3)"],
+    "covers": ["claim 路径", "已签→already 不重复 claim", "401→needs_human", "1001/10001→already、1003→no_event", "daemon 实际 spawn --once 打 fixture 三场景"] },
+  "security": "账号 token 存于 Linux config.json（0600）；claim 遇 401/设备令牌/验证码一律转人工，绝不绕过。",
+  "quality": { "tests": "501/501 pass, 0 fail, 2 skip", "tsc": "0", "boundaries": 190 },
+  "next": ["事件未签时 daemon 会真实 claim（离线 claim 路径已测；等 WorkBuddy 活动开启可观察真实 +credit）", "zcode/kiro 适配器移植", "主控 CLI 已可远程 start/stop/status 管理该校验守护"],
+  "fabricated": false
+}

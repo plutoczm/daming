@@ -1,0 +1,33 @@
+# Generated from apps/desktop/src/installer.ts (DESKTOP_INSTALLER). Do not edit by hand.
+appId: com.daming.desktop
+productName: "Daming"
+artifactName: Daming-Setup.exe
+directories:
+  output: release
+  buildResources: build-resources
+files:
+  - "electron/**/*"
+  - "package.json"
+extraResources:
+  - from: build/host
+    to: host
+    filter:
+      - "**/*"
+win:
+  icon: electron/assets/app.ico
+  artifactName: Daming-Setup.exe
+  target:
+    - target: nsis
+      arch:
+        - x64
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  deleteAppDataOnUninstall: false
+  differentialPackage: true
+  artifactName: Daming-Setup.exe
+publish: null

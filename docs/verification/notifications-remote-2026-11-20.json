@@ -1,0 +1,20 @@
+{
+  "task": "飞书/企业微信/微信/QQ 通知流 + 远程接管（Autoloop / Super-Agent）",
+  "date": "2026-11-20T23:20:00+08:00",
+  "implemented": {
+    "notificationHub": "apps/server/src/notification-hub.ts：5 类通道（feishu/wecom/wechat/qq/webhook），本地持久化，密钥不回传浏览器；支持启用、事件订阅、测试发送、最近通知",
+    "watcher": "Host 每 15s 扫描 tasks + Autoloop：新任务、待审批/验收/阻塞/完成/失败、Autoloop 待拍板卡自动推送",
+    "remote": "远程访问 token + /api/remote/login：在手机/外网通过 Tailscale/Cloudflare Tunnel 打开同一 Host，自动登录本机用户并直接审批/验收；通知消息自动附带远程链接",
+    "ui": "NotificationsPanel：通知与远程页面（Feishu/企业微信/微信/QQ/Webhook 卡片、事件 chips、测试按钮、最近通知、远程地址/令牌）",
+    "honesty": "个人微信无官方 Webhook，页面明确标注需 Server酱/PushPlus；QQ 标注 OneBot/第三方网关；飞书/企业微信使用群机器人 Webhook"
+  },
+  "runtimeEvidence": {
+    "webhookTest": "配置 webhook=http://127.0.0.1:3999/hook → POST /api/notifications/test 200；本地接收器记录真实 POST 请求（见 .cache/webhook-received.log）",
+    "remoteLink": "POST /api/notifications/remote {publicBaseUrl:'https://daming.example.test',regenerate:true} → loginUrl https://daming.example.test/api/remote/login?token=…",
+    "uiScreenshot": ".cache/final-notifications.png",
+    "nav": "总览/收件箱/任务/项目/供应商/Agent/自动化/通知/平台状态"
+  },
+  "tests": {
+    "fullCheck": "corepack pnpm check → 549 tests / 547 pass / 2 skipped / 0 fail, tsc root+web 0, 204 boundaries, exit 0 (.cache/check-notify.log)"
+  }
+}

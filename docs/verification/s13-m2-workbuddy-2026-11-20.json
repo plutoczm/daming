@@ -1,0 +1,32 @@
+{
+  "stage": "S13",
+  "round": 1,
+  "kind": "M2 账号·额度·签到 — WorkBuddy 原生适配器（移植自 Magpie）；M1 上游就绪",
+  "observedAt": "2026-11-20T00:10:00Z",
+  "m2": {
+    "adapter": "services/checkin-agent/src/platform.ts 中的 WorkBuddyPlatform（移植自 Magpie internal/provider/workbuddy_checkin.go）",
+    "endpoints": [
+      "POST {base}/v2/billing/meter/checkin-activity-status (active / today_checked_in / streak_days / today_credit)",
+      "POST {base}/v2/billing/meter/daily-checkin (credit / streak_days)"
+    ],
+    "token": "来自导入账号（plugin-auth.json 的 access，Bearer）",
+    "mapping": { "today_checked_in": "already", "claim ok": "claimed", "1001": "already", "1002": "failed(ineligible)", "1003": "no_event", "401": "terms(needs official app, 转人工不绕过)" },
+    "tests": { "file": "services/checkin-agent/tests/workbuddy.test.ts", "count": 5, "pass": 5, "covers": ["active未签→claimed", "已签→already 且不重复claim", "401→terms转人工", "1001→already / 1003→no_event", "经 CheckinAgent 端到端 claimed"] },
+    "realReadOnlyStatus": {
+      "endpoint": "https://www.workbuddy.cn/v2/billing/meter/checkin-activity-status",
+      "usingRealToken": true, "claimed": false,
+      "result": { "active": false, "todayCheckedIn": false },
+      "conclusion": "真实 token + 真实端点连通、鉴权通过（只读 status）。事件当前未开启，故 Daming 侧会判 no_event，符合预期。"
+    }
+  },
+  "m1": {
+    "upstreamReady": "Ollama qwen3:8b 在本机 http://localhost:11434 可用（M1 自持网关后续可直接接真实本地模型做真实对话验证）"
+  },
+  "quality": { "tests": "488/488 pass, 0 fail, 2 skip", "tsc": "0", "boundaries": 190 },
+  "next": [
+    "M2：接 workflow——把 WorkBuddyPlatform 设入 Linux 常驻守护 config（platform.kind 指向 workbuddy 适配），事件开启时真实 claim；zcode/kiro 依次移植",
+    "M1：Daming 自持 OpenAI/Anthropic 兼容网关，先接 Ollama 真实对话 + /v1/models",
+    "REQ-005 转 Daming 自持需用户批准 spec 后才能执行 M7 移除 Magpie"
+  ],
+  "fabricated": false
+}

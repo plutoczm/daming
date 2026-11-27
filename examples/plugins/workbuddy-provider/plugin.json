@@ -1,0 +1,8 @@
+{
+  "id": "workbuddy",
+  "name": "WorkBuddy (subscription)",
+  "version": "1.0.0",
+  "kind": "provider",
+  "models": ["deepseek-v4.1-flash", "deepseek-v4-pro", "glm-5.3", "kimi-k3-1"],
+  "description": "WorkBuddy 订阅账号供应商插件：用账号 OAuth token(env WORKBUDDY_ACCESS) 经 copilot.tencent.com + WorkBuddy 客户端头 提供聊天。"
+}

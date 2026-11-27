@@ -1,0 +1,9 @@
+{
+  "defaultModel": "qwen3:8b",
+  "providers": [
+    { "id": "ollama", "api": "openai-completions", "baseUrl": "http://localhost:11434", "models": ["qwen3:8b"] },
+    { "id": "deepseek", "api": "openai-completions", "baseUrl": "https://api.deepseek.com", "models": ["deepseek-chat"], "apiKeyEnv": "DEEPSEEK_API_KEY" },
+    { "id": "zcode", "api": "anthropic-messages", "baseUrl": "https://api.z.ai/api/anthropic", "models": ["glm-5.3", "glm-5.2", "glm-5.3-flash"], "apiKeyEnv": "ZCODE_KEY" },
+    { "id": "kimi", "api": "anthropic-messages", "baseUrl": "https://api.moonshot.cn/anthropic", "models": ["kimi-k2"], "apiKeyEnv": "MOONSHOT_API_KEY" }
+  ]
+}

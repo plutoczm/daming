@@ -1,0 +1,141 @@
+{
+  "schema": "daming.ui-redesign.v4",
+  "generatedAt": "2026-11-25T12:28:35.365Z",
+  "environment": {
+    "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "webRoot": "apps/web/dist",
+    "dataDir": "temporary",
+    "identityMode": true,
+    "mfa": true
+  },
+  "checks": {
+    "identityReady": true,
+    "providerSeeded": true,
+    "agentProfileSeeded": true,
+    "localTasksCompleted": 2,
+    "waitingTaskSeeded": true,
+    "attributionBinding": true,
+    "attributedRequest": true,
+    "unattributedStaysUnattributed": true,
+    "attributedTokens": {
+      "input": 1200,
+      "output": 80
+    },
+    "attributedCoverage": "persisted",
+    "attributedModelNode": true,
+    "sharedModelStaysHonest": true,
+    "crewPlanReady": 3,
+    "reloginAfterRestart": true,
+    "landmarks": true,
+    "skipLink": true,
+    "executionGraphNodes": 19,
+    "executionGraphStates": "[\"done\"]",
+    "executionGraphCoverage": "运行时绑定 部分记录 模型请求 未接入 工具调用 部分记录 Token / 费用 未接入",
+    "executionGraphTimeline": 12,
+    "executionGraphHonestGaps": true,
+    "dialogFocus": true,
+    "escapeClosesDialog": true,
+    "focusReturnedToBoard": true,
+    "executionGraphWaitingStates": "[\"queued\",\"done\",\"pending\"]",
+    "browserAttributedCoverage": true,
+    "browserAttributedTokens": true,
+    "browserAttributionScope": true,
+    "browserUnattributedExcluded": true,
+    "crewChildren": 2,
+    "crewProgress": "子目标 3 已派发 2 进行中 0 已交付 2 阻塞 / 失败 0 未派发 0",
+    "crewPersistedTree": true,
+    "overflow:desktop": {
+      "overview": 0,
+      "crew": 0
+    },
+    "overflow:small-desktop": {
+      "overview": 0,
+      "crew": 0
+    },
+    "overflow:mobile": {
+      "overview": 1,
+      "crew": 0
+    },
+    "mobileCommandButtonVisible": true,
+    "sseInvalidatesProviders": true,
+    "providerNoReload": true,
+    "sseFallbackDom": {
+      "hash": "#providers",
+      "stack": 1,
+      "kpis": 3,
+      "text": "跳到主要内容 daming CONTROL PLANE 工作区 总览 收件箱 组合 任务 项目 运行 供应商 Agent 路由图 编队 自动化 系统 网关观测 通知 平台状态 设置 帮助 轮询兜底 大铭 / 供应商 命令 ⌘K 跟随系统 读写会话 用户与账号归属 · ui-v4-owner · UI v4 Tenant"
+    },
+    "sseFallback": true,
+    "sseReconnect": true,
+    "reducedMotionMedia": true,
+    "reducedMotionNoFlights": true,
+    "paletteOpens": true,
+    "paletteFocusInside": true,
+    "paletteTrap": true,
+    "paletteEscape": true,
+    "idleApiRequests": {
+      "/api/identity/status": 8,
+      "/api/session": 4,
+      "/api/identity/tenants": 4,
+      "/api/identity/accounts": 4,
+      "/api/identity/members": 4,
+      "/api/identity/readiness": 4,
+      "/api/identity/billing/observations": 4,
+      "/api/identity/tenant-accounts": 4,
+      "/api/magpie/local-quotas": 4,
+      "/api/events": 4,
+      "/api/project/status": 6,
+      "/api/project/pricing": 6,
+      "/api/tasks": 6,
+      "/api/portfolio/digest": 6,
+      "/api/lulu/status": 6,
+      "/api/deepseek/balance": 6,
+      "/api/magpie/status": 6,
+      "/api/magpie/operations": 6,
+      "/api/autoloop/state": 6,
+      "/api/identity/budget": 4,
+      "/api/identity/candidates": 4,
+      "/api/tasks/29bd25a4-3fb6-42b6-9757-04339bf48697": 5,
+      "/api/tasks/29bd25a4-3fb6-42b6-9757-04339bf48697/execution-graph": 3,
+      "/api/tasks/f7cf325f-434e-47a7-ac2c-9dcafc04954b": 2,
+      "/api/tasks/f7cf325f-434e-47a7-ac2c-9dcafc04954b/execution-graph": 3,
+      "/api/tasks/f7cf325f-434e-47a7-ac2c-9dcafc04954b/delivery": 2,
+      "/api/tasks/ea34fb8b-fafc-4ae0-b95c-ed04a165d29e": 3,
+      "/api/tasks/ea34fb8b-fafc-4ae0-b95c-ed04a165d29e/delivery": 1,
+      "/api/tasks/ea34fb8b-fafc-4ae0-b95c-ed04a165d29e/execution-graph": 4,
+      "/api/crew/overview": 4,
+      "/api/model-binding": 6,
+      "/api/magpie/inventory": 6,
+      "/api/gateway/observability": 1,
+      "/api/gateway/context": 1
+    }
+  },
+  "screenshots": [
+    ".cache/ui-v4/desktop-overview.png",
+    ".cache/ui-v4/desktop-tasks.png",
+    ".cache/ui-v4/desktop-execution-graph.png",
+    ".cache/ui-v4/desktop-execution-graph-waiting.png",
+    ".cache/ui-v4/desktop-execution-graph-attributed.png",
+    ".cache/ui-v4/desktop-crew.png",
+    ".cache/ui-v4/desktop-providers.png",
+    ".cache/ui-v4/desktop-gateway.png",
+    ".cache/ui-v4/small-desktop-overview.png",
+    ".cache/ui-v4/small-desktop-crew.png",
+    ".cache/ui-v4/mobile-overview.png",
+    ".cache/ui-v4/mobile-crew.png",
+    ".cache/ui-v4/reduced-motion-graph.png"
+  ],
+  "console": {
+    "errors": [],
+    "warnings": []
+  },
+  "network": {
+    "badResponses": []
+  },
+  "notes": [
+    "供应商指向 127.0.0.1:1（不可达），全程零真实模型/网关调用。",
+    "编队派发回执在 Host 停止期间写入 host/crew-plans.json，用于验证页面从持久化恢复父子任务树。"
+  ],
+  "finishedAt": "2026-11-25T12:29:20.400Z",
+  "ok": true
+}

@@ -1,0 +1,33 @@
+{
+  "stage": "S11",
+  "kind": "remote PERSISTENT check-in daemon on school Linux + Windows-main-host remote control",
+  "observedAt": "2026-11-19T15:48:00Z",
+  "requirementsMet": [
+    "签到进程常驻在学校 Linux 上，独立于主控生命周期",
+    "主控(Win11) 可远程 start/stop/status",
+    "主控关闭/断开不影响 Linux 进程（setsid 脱离 SSH 会话）",
+    "只有主控显式 stop 才停止"
+  ],
+  "host": { "alias": "gdwyy70", "address": "172.23.207.70", "os": "Ubuntu 20.04.6 LTS", "node": "v20.18.0", "user": "czm2025" },
+  "remoteDir": "/mnt/ext-disk/czm2025/Projects/daming-checkin",
+  "artifacts": {
+    "services/checkin-agent/remote/checkin-daemon.mjs": "常驻守护进程（纯 Node ESM，node 20 直接跑；SIGTERM 优雅退出）",
+    "services/checkin-agent/remote/daming-checkin.sh": "start(setsid nohup 脱离)/stop/status/once + pidfile",
+    "services/checkin-agent/remote/config.example.json": "平台/账号配置示例",
+    "apps/server/src/remote-checkin-control.ts": "RemoteCheckinController：SSH 远程 start/stop/status（主控不持有进程）",
+    "scripts/checkin-control.mjs": "主控 CLI：--host --user --key --remote-dir --action start|stop|status|once"
+  },
+  "lifecycleProof": {
+    "start": "setdsid nohup -> 后台进程，SSH 立即返回",
+    "survivesNewSshSession": "新 SSH 会话仍见同一 pid（ELAPSED 增长），非任何会话子进程",
+    "onlyExplicitStop": "仅 daming-checkin.sh stop 后状态变 stopped、进程消失；无超时/主控断开自动停止",
+    "leftRunningPid": 234918
+  },
+  "controlProof": {
+    "via": "apps/server RemoteCheckinController -> ssh",
+    "cliActions": ["status: running pid 234073", "stop: stopped", "status: stopped", "start: started pid 234918", "status: running pid 234918"],
+    "exit": 0
+  },
+  "note": "当前为 benign simulated 账户（无真实校方凭据，仅证明常驻+远程控制生命周期）。真实校方平台：把 config.platform 改成 {kind:'http', baseUrl:'https://…'} 并填真实账号/凭据后，同一守护进程即可真实签到（只读、遇验证码/条款转人工）。",
+  "fabricated": false
+}

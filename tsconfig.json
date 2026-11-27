@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "packages/**/*.ts",
+    "apps/**/*.ts",
+    "services/checkin-agent/**/*.ts",
+    "services/daming-gateway/**/*.ts",
+    "services/codex-relay/**/*.ts",
+    "services/accounts/**/*.ts",
+    "services/admin/**/*.ts"
+  ],
+  "exclude": [
+    "apps/web"
+  ]
+}

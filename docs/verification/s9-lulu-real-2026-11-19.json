@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-11-19T18:53:00+08:00",
+  "scope": "S9 real Lulu end-to-end via Daming's own lulu-service (health / capabilities / one signed-authorization submit). Loopback only.",
+  "luluBackend": {
+    "baseUrl": "http://127.0.0.1:8123/api",
+    "stack": "Spring Boot 3.4.4 / Java 25 (D:/Projects/lulu/services/backend), context-path=/api",
+    "auth": "POST /api/auth/register (or /login) -> Set-Cookie LULU_SESSION",
+    "note": "Existing lulu dev Postgres volume password was unknown/drifted; an isolated throwaway pgvector container on 127.0.0.1:5444 was used only for this E2E. The existing lulu database was NOT modified. Backend and temp DB were stopped/removed after the run."
+  },
+  "steps": {
+    "auth": { "status": 200, "gotSession": true },
+    "status": {
+      "enabled": true,
+      "health": "online",
+      "capabilities": "available",
+      "coachPrimary": "workbuddy/deepseek-v4.1-flash",
+      "agentPrimary": "workbuddy/deepseek-v4.1-flash",
+      "fastModel": "workbuddy/deepseek-v4.1-flash",
+      "memoryModel": "qwen3:8b"
+    },
+    "submit": { "status": "completed", "runId": "10eddf94-8135-4662-bacc-791d5916e6fe", "reason": null },
+    "evidenceKeys": ["needsClarification", "clarificationQuestion", "mainStrategy", "diagnosis", "bestReply", "alternatives", "branches", "nextStep", "facts", "uncertainties", "safetyNotes"],
+    "persisted": { "status": "completed", "hasEvidence": true }
+  },
+  "notes": [
+    "Real model inference occurred through Lulu's configured providers during the single authorized submit (user-approved real side effect).",
+    "Daming-side submission is mediated by a signed one-time approval (operation/target/requestHash/expiry/nonce/signature) and an idempotent run store; the same nonce cannot be resent.",
+    "Offline package tests (8) cover offline/timeout/auth-failure never-fake-online, capabilities auth vs outage, and expiry/changed/tampered/wrong-target approval rejection plus status/evidence persistence.",
+    "Other Lulu environments require separate acceptance."
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "daming.ui-theme-brand.v6",
+  "generatedAt": "2026-11-25T13:00:00.000Z",
+  "title": "UI v6 · Day / Night themes + brand mark",
+  "request": "颜色不要暗浅混搭，要整套统一；准备暗夜模式和白天模式；品牌改成一个 daming + 上传的 M 标；项目所有产物放项目内",
+  "themes": {
+    "day": {
+      "canvas": "#f7f6f2",
+      "surface": "#ffffff",
+      "ink": "#1a1916",
+      "rail": "linear-gradient(#faf9f5, #ffffff)",
+      "note": "暖纸浅色，rail 与工作区同一材质"
+    },
+    "night": {
+      "canvas": "#131317",
+      "surface": "#1b1b21",
+      "ink": "#eceae4",
+      "rail": "linear-gradient(#101014, #17171d)",
+      "note": "深墨全套，无浅色残留"
+    },
+    "preference": ["day", "night", "auto"],
+    "storageKey": "daming.theme",
+    "firstPaint": "apps/web/public/theme-boot.js（React 之前写入 data-theme，避免闪白）"
+  },
+  "implementation": {
+    "tokens": "apps/web/public/theme.css — :root[data-theme=day|night] 全量令牌，组件不写死颜色",
+    "hook": "apps/web/src/theme.ts — useTheme / nextPreference / THEME_LABELS",
+    "switch": "顶栏 .theme-toggle 循环切换 + 设置页 ThemeSegments 分段控件",
+    "nativeChrome": "main.cjs applyCaptionTheme + IPC daming:set-theme + preload daming.setTheme（setTitleBarOverlay 重绘）",
+    "brand": {
+      "railMarkup": "img.rail-logo src=/brand/mark-256.png + b=daming + span=CONTROL PLANE",
+      "webAssets": "apps/web/public/brand/mark-256.png（M 标裁切）、daming-logo.png / daming-mark.jpg（上传原件）",
+      "desktopIcons": "apps/desktop/electron/assets/tray-{16,20,24,32,40,48,64,256}.png + app.ico",
+      "stamp": "scripts/stamp-exe-icon.mjs — 直调 rcedit 写 exe 图标/版本，绕过 winCodeSign 符号链接提权"
+    },
+    "buildCache": ".cache/electron-builder（项目内，不占 C 盘）"
+  },
+  "verified": {
+    "tests": { "total": 609, "pass": 607, "skipped": 2, "fail": 0 },
+    "typecheck": { "root": 0, "web": 0 },
+    "boundaries": "234 source files passed",
+    "browser": { "command": "node scripts/ui-v4-verify.mjs", "ok": true, "checks": 48, "consoleErrors": [] },
+    "installed": {
+      "installer": "apps/desktop/release/Daming-Setup.exe",
+      "installerBytes": 107684568,
+      "silentInstallExit": 0,
+      "dayCanvas": "#f7f6f2",
+      "nightCanvas": "#131317",
+      "brandText": "daming",
+      "logoLoaded": true,
+      "exeIcon": "M mark (extracted via Icon.ExtractAssociatedIcon)"
+    },
+    "screenshots": [
+      ".cache/final-day-overview.png",
+      ".cache/final-night4.png",
+      ".cache/exe-icon2-big.png",
+      ".cache/ui-v4/desktop-overview.png"
+    ]
+  },
+  "notes": [
+    "两套主题都来自同一套 token 名，切主题只换 :root 值，因此不存在局部仍为浅色的情况。",
+    "自动模式监听 prefers-color-scheme 变化，系统切换时会跟着变。",
+    "electron-builder 的 winCodeSign 解包在本机因『不允许创建符号链接』失败（Windows 提权限制，非文件权限），已改为打包后用已解包的 rcedit 单独写图标，无需管理员授权。",
+    "未改 spec、未改契约、未放宽任何权限或任务状态语义。"
+  ]
+}

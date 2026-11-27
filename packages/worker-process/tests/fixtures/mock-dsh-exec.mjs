@@ -1,0 +1,10 @@
+let input = '';
+for await (const chunk of process.stdin) input += chunk;
+console.log(JSON.stringify({ type: 'session', sessionId: 'session-mock', cwd: process.cwd() }));
+console.log(JSON.stringify({ type: 'status', phase: 'turn_start', turn: 1 }));
+console.log(JSON.stringify({ type: 'status', phase: 'step_start', turn: 1, step: 1 }));
+console.log(JSON.stringify({ type: 'thinking', text: 'mock reasoning' }));
+console.log(JSON.stringify({ type: 'text', text: 'OK' }));
+console.log(JSON.stringify({ type: 'status', phase: 'step_end', turn: 1, step: 1, usage: { inputTokens: 40, outputTokens: 2 } }));
+console.log(JSON.stringify({ type: 'status', phase: 'turn_end', turn: 1, reason: null }));
+console.log(JSON.stringify({ type: 'final', sessionId: 'session-mock', reason: null, text: `OK:${input.trim()}` }));

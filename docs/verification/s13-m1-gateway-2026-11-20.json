@@ -1,0 +1,61 @@
+{
+  "stage": "S13",
+  "module": "M1 gateway (OpenAI chat/responses + Anthropic messages) + M3 routing + M4 usage -> Ollama",
+  "observedAt": "2026-11-19T16:18:36.251Z",
+  "realModelInference": true,
+  "results": {
+    "models": {
+      "object": "list",
+      "data": [
+        {
+          "id": "qwen3:8b",
+          "object": "model",
+          "owned_by": "daming"
+        }
+      ]
+    },
+    "chat": {
+      "content": "OK.",
+      "usage": {
+        "prompt_tokens": 20,
+        "prompt_tokens_details": {
+          "cached_tokens": 1
+        },
+        "completion_tokens": 112,
+        "total_tokens": 132
+      }
+    },
+    "messages": {
+      "type": "message",
+      "text": "OK.",
+      "usage": {
+        "input_tokens": 20,
+        "output_tokens": 89
+      }
+    },
+    "responses": {
+      "object": "response",
+      "output_text": "OK.",
+      "usage": {
+        "input_tokens": 20,
+        "output_tokens": 149,
+        "total_tokens": 169
+      }
+    },
+    "usageSummary": {
+      "requests": 3,
+      "inputTokens": 60,
+      "outputTokens": 350,
+      "cachedTokens": 39,
+      "byModel": {
+        "qwen3:8b": {
+          "requests": 3,
+          "inputTokens": 60,
+          "outputTokens": 350,
+          "cachedTokens": 39
+        }
+      }
+    }
+  },
+  "gatewayUrl": "http://127.0.0.1:56984"
+}

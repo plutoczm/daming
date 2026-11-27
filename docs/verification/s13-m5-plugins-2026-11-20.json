@@ -1,0 +1,18 @@
+{
+  "stage": "S13",
+  "round": 5,
+  "module": "M5 provider-plugin contract + registry; gateway supply made plugin-driven",
+  "observedAt": "2026-11-20T00:25:00Z",
+  "contract": {
+    "ProviderPlugin": "{ id, models[], streamBaseUrl?, complete(bodyText) -> {status, contentType, bodyText} }",
+    "openAICompatiblePlugin": "built-in plugin wrapping any OpenAI-compatible upstream (Ollama, DeepSeek, relay…)",
+    "ProviderRegistry": "register / models() / candidates(model) with round-robin rotation + duplicate rejection"
+  },
+  "gateway": "services/daming-gateway/src/gateway.ts 现由 ProviderRegistry 驱动供给（chat/responses/messages/models），支持 custom plugin（非 HTTP 也可）",
+  "tests": { "file": "services/daming-gateway/tests/plugins.test.ts", "count": 3, "pass": 3,
+    "covers": ["registry models/round-robin/duplicate", "custom plugin end-to-end chat+messages (no HTTP upstream)", "openAICompatiblePlugin base/streamBaseUrl"] },
+  "realRegression": "s13-gateway-smoke 经插件注册表 → Ollama qwen3:8b 仍 realModelInference=true（chat/messages/responses 均 OK，usage requests=3）",
+  "quality": { "tests": "498/498 pass, 0 fail, 2 skip", "tsc": "0", "boundaries": 190 },
+  "next": ["M2：zcode/kiro 适配器 + WorkBuddy 接 Linux 常驻守护真签", "M1 供给：把真实 Codex/WorkBuddy 账号适配为 ProviderPlugin（需各自 API/签名）", "M7 移除 Magpie 需 spec 批准"],
+  "fabricated": false
+}

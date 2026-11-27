@@ -1,0 +1,30 @@
+{
+  "task": "多 Agent / 多 LLM 编队：任务拆子目标 + 平台/主 Agent 分配",
+  "date": "2026-11-20T23:43:00+08:00",
+  "references": [
+    "T3 Code：subagent tree / delegate_task / thread 内 provider-model 切换",
+    "HiFox：Crew 小队（队长 + 专长 Agent + 真人卡点）、任务指派 Agent",
+    "DSH：ACP / 模型目录；Magpie：供应商账号与模型目录"
+  ],
+  "implemented": {
+    "planner": "apps/server/src/crew-planner.ts：任务拆分为子目标；按关键词识别 需求/实现/验收；为每个子目标选择 Agent（DSH/Codex/Claude Code）+ 供应商模型；优先沿用 Agent 现有绑定，否则按能力偏好从真实 catalog 选择",
+    "store": "CrewPlanStore（host/crew-plans.json）：方案持久化，最近 50 个",
+    "api": "GET /api/crew；POST /api/crew/plan；POST /api/crew/:id/dispatch。dispatch 逐子目标创建 task，并按 task 作用域绑定 Agent+模型（model-binding）",
+    "ui": "CrewPanel：编队名称/总目标/子目标/平台分配或主 Agent 分配 → 生成方案 → 查看每个子目标的 Agent + 供应商 + 模型 + 理由 → 一键派发；历史编队",
+    "agents": "桌面 Host 自动探测本机 Codex CLI 与 DSH CLI，使 DSH/Codex/Claude Code 三条真实执行链都可被编队派发"
+  },
+  "runtimeEvidence": {
+    "plan": "POST /api/crew/plan（goal=完成登录需求梳理、实现登录页、测试验收并复核交付）→ 4 个子目标：DSH/workbuddy/deepseek-v4-pro、Codex/codex/gpt-6.1-sol、Claude/workbuddy/deepseek-v4.1-flash ×2",
+    "dispatch": "POST /api/crew/:id/dispatch → 202，4 个 task 全部创建并绑定：dsh→workbuddy/deepseek-v4-pro、codex→codex/gpt-6.1-sol、claude-code→workbuddy/deepseek-v4.1-flash，skipped=[]",
+    "uiScreenshot": ".cache/crew-plan-final.png",
+    "pageScreenshot": ".cache/crew-final.png"
+  },
+  "notes": [
+    "分配由平台规则完成；主 Agent 模式入口已保留（后续可替换为模型生成的子目标）。",
+    "派发创建的任务进入手动审批；批准后由对应真实 Agent 执行。",
+    "任务详情仍按现有 Task/Engine 单一写者模型落库。"
+  ],
+  "tests": {
+    "fullCheck": "corepack pnpm check → 549 tests / 547 pass / 2 skipped / 0 fail, tsc root+web 0, 206 boundaries, exit 0 (.cache/check-crew.log)"
+  }
+}

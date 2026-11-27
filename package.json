@@ -1,0 +1,51 @@
+{
+  "name": "daming",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": "11.25.0"
+  },
+  "scripts": {
+    "test": "node scripts/run-tests.mjs",
+    "typecheck": "tsc -p tsconfig.json && tsc -p apps/web/tsconfig.json",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
+    "check": "node scripts/run-tests.mjs && tsc -p tsconfig.json && tsc -p apps/web/tsconfig.json && node scripts/check-boundaries.mjs",
+    "demo:task": "node scripts/demo-task.mjs",
+    "probe:magpie": "node scripts/probe-magpie.mjs",
+    "demo:codex-protocol": "node scripts/demo-codex-protocol.mjs",
+    "demo:codex-process": "node scripts/demo-codex-process.mjs",
+    "demo:governance": "node scripts/demo-governance.mjs",
+    "demo:model-gateway": "node scripts/demo-model-gateway.mjs",
+    "demo:model-binding": "node scripts/demo-model-binding.mjs",
+    "build:gateway": "D:/Anaconda3/envs/daming/python.exe -X utf8 scripts/build-gateway.py",
+    "test:gateway": "D:/Anaconda3/envs/daming/python.exe -X utf8 services/model-gateway-go/run_go.py test ./internal/...",
+    "build:magpie": "D:/Anaconda3/envs/daming/python.exe -X utf8 scripts/build-magpie.py",
+    "test:magpie": "D:/Anaconda3/envs/daming/python.exe -X utf8 services/damingd/run_go.py test -tags nogui ./internal/routes/... ./internal/gateway/... ./internal/provider/...",
+    "start": "node scripts/embedded-gateway.mjs start",
+    "gateway:status": "node scripts/embedded-gateway.mjs status",
+    "gateway:configure": "node scripts/embedded-gateway.mjs configure",
+    "gateway:smoke": "node scripts/embedded-gateway.mjs smoke",
+    "demo:workflow": "node scripts/demo-workflow.mjs",
+    "probe:dsh": "node scripts/probe-dsh.mjs",
+    "probe:isolation": "node scripts/probe-isolation.mjs",
+    "build:web": "corepack pnpm --filter @daming/web build",
+    "test:web:browser": "node scripts/web-browser-smoke.mjs",
+    "verify:ui-v4": "node scripts/ui-v4-verify.mjs",
+    "test:codex:magpie": "node scripts/codex-magpie-smoke.mjs",
+    "codex:subscription:preflight": "node scripts/codex-magpie-live-preflight.mjs",
+    "codex:subscription:acceptance": "node scripts/codex-subscription-acceptance.mjs",
+    "dev:web": "corepack pnpm --filter @daming/web dev",
+    "start:web": "node scripts/web-host.mjs",
+    "build:desktop": "node scripts/build-desktop.mjs",
+    "package:desktop": "node scripts/package-desktop.mjs",
+    "magpie:profile": "node scripts/magpie-profile.mjs",
+    "magpie:data": "node scripts/magpie-data.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "24.19.2"
+  }
+}

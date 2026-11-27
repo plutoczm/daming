@@ -1,0 +1,86 @@
+{
+  "stage": "S12",
+  "title": "Windows 安装型 exe（Electron 封装 + 受管 Host 生命周期）",
+  "satisfies": "REQ-012 / AC-012-2（安装与运行边界）",
+  "observedAt": "2026-11-20T04:48:00Z",
+  "host": "本机 Windows 11（10.0.26200.xxxx），Node 24.18.0，pnpm 11.25.0",
+  "deliverables": {
+    "apps/desktop/src/host-lifecycle.ts": "S12.1 受管 Host 生命周期纯逻辑：buildHostSpawnPlan（参数数组/shell:false/环境变量白名单）、HostSupervisor 状态机（idle→starting→ready→stopping→stopped/failed，重复 start 不重复拉起）、buildProcessTreeKill（Windows taskkill /T /F）、ready 握手只接受 loopback http。Electron 仅管理窗口与该进程，不写任务状态。",
+    "apps/desktop/src/paths.ts": "每用户数据根（%LOCALAPPDATA%\\Daming）、设置合并（保留未知键）、planUpgrade（升级只清理可弃缓存目录，数据/历史/设置始终保留）。",
+    "apps/desktop/src/magpie-gate.ts": "S12.2 可选 Magpie 默认关闭，只有 userEnabled&&installed 才启动；MAGPIE_SILENT_INSTALL_ALLOWED=false，assertUserInitiatedMagpie 阻止静默安装/启动。",
+    "apps/desktop/src/installer.ts": "DESKTOP_INSTALLER 单一真源 + validateInstallerConfig（artifactName=Daming-Setup.exe、nsis target、oneClick=false、deleteAppDataOnUninstall=false 保留历史、differentialPackage=true、publish=null）+ renderElectronBuilderYml。",
+    "apps/desktop/electron-builder.yml": "由 DESKTOP_INSTALLER 渲染，测试断言磁盘文件与渲染结果完全一致（不可漂移）。",
+    "apps/desktop/electron/main.cjs": "Electron 主进程：requestSingleInstanceLock 去重、创建窗口、spawn 受管 Host（stdio 管道）、本地 dist/打包 node.exe 选择、首启 token 引导、quit 时先写 shutdown 让 Host 释放目录锁、超时才 taskkill 进程树；启动时清理 pid 已死的陈旧锁。",
+    "apps/desktop/electron/preload.cjs": "contextIsolation + sandbox，不向渲染进程暴露 Node/文件/令牌。",
+    "apps/desktop/host/main.mjs": "受管 Host 启动器：调用 startBoardHost({dataDir,port,webRoot})，输出 DAMING_HOST_READY{url} 握手，stdin 'shutdown' 触发 host.close() 释放锁。",
+    "apps/desktop/tests/desktop.test.ts": "13 项测试：路径/设置合并/升级保留/参数装配/env 过滤/ready 解析/进程树 kill/监督者状态机/去重/停止回收/可选 Magpie/安装器不变量/yml 同步。",
+    "scripts/build-desktop.mjs": "esbuild 打包 host.mjs（0.7MB）+ 复制 Node24 node.exe（88.2MB）+ 复制 web dist。",
+    "scripts/package-desktop.mjs": "复用本地 electron dist，经 npmmirror 镜像取 nsis 构件，生成 release/Daming-Setup.exe。"
+  },
+  "installer": {
+    "artifact": "apps/desktop/release/Daming-Setup.exe",
+    "bytes": 105168812,
+    "electron": "33.4.11",
+    "nsis": "oneClick=false, perMachine=false, allowToChangeInstallationDirectory=true, deleteAppDataOnUninstall=false, differentialPackage=true",
+    "codeSigning": "本地/开发构建未配置证书，signAndEditExecutable=false（不签名）；生产签名需用户证书"
+  },
+  "postDeliveryFix": {
+    "reportedAt": "2026-11-20T04:56:00Z",
+    "symptom": "用户安装到 D:\\Daming 后双击打开，窗口不可用（Host 健康但页面异常）",
+    "rootCause": "electron/main.cjs 首启拼接 baseUrl + '/?token='，而 Host ready URL 已带尾部斜杠，实际加载 http://127.0.0.1:3210//?token=...（双斜杠）；Host 对 '//' 路径返回 internal_error，窗口无法进入任务板",
+    "fix": "改用 new URL('/?token=' + encodeURIComponent(token), baseUrl) 归一为单斜杠；新增纯函数 buildBootstrapUrl 与单测；增加 did-fail-load 日志",
+    "verification": {
+      "reinstalledTo": "D:\\Daming（/S /D=D:\\Daming，exit 0）",
+      "cdpPageUrl": "http://127.0.0.1:3210/",
+      "cdpPageTitle": "大铭 · 任务板",
+      "doubleSlashPresent": false,
+      "hostHealthz": 200,
+      "gracefulCloseLeftoverDaming": 0,
+      "gracefulCloseLeftoverHost": 0,
+      "lockRemoved": true
+    }
+  },
+  "observations": {
+    "hostBundleSmoke": {
+      "readyLine": "DAMING_HOST_READY {\"url\":\"http://127.0.0.1:34567/\",\"port\":34567}",
+      "healthz": "200 {\"ok\":true}",
+      "rootUnauthenticated": 401,
+      "note": "打包后的 host.mjs + node.exe 独立运行，Host 单写者与 Web 静态资源可用"
+    },
+    "install": { "silent": "/S /D=<dir>", "exitCode": 0, "keyFiles": ["Daming.exe", "resources/app.asar", "resources/host/host.mjs", "resources/host/node.exe", "resources/host/web/index.html", "Uninstall Daming.exe"] },
+    "upgrade": { "exitCode": 0, "historyMarkerRetained": true, "dataDirRetained": true, "filesIntact": true },
+    "singleInstance": {
+      "launchAReady": true,
+      "managedHostCount": 1,
+      "lockPresentWhileRunning": true,
+      "secondLaunchExited": true,
+      "managedHostCountAfterSecondLaunch": 1,
+      "noDuplicateHost": true
+    },
+    "gracefulShutdown": {
+      "method": "taskkill <pid>（无 /F，发 WM_CLOSE）",
+      "afterCloseDamingProcs": 0,
+      "afterCloseManagedHostProcs": 0,
+      "lockRemoved": true,
+      "relaunchAfterCleanQuitReady": true
+    },
+    "uninstall": { "silent": "/S", "exitCode": 0, "residualProgramFiles": 0, "historyRetained": true, "dataDirRetained": true }
+  },
+  "tests": {
+    "files": ["apps/desktop/tests/desktop.test.ts", "scripts/check-boundaries.test.mjs"],
+    "desktopCount": 14, "desktopPass": 14, "desktopFail": 0,
+    "fullSuite": "544 tests / 542 pass / 2 skipped / 0 fail",
+    "typecheck": "tsc root=0, tsc web=0",
+    "boundaries": "195 source files passed (含 apps/desktop)"
+  },
+  "guarantees": [
+    "Electron 只管理窗口与受管 Host 进程，任务/审批/成本/审计仍由唯一 Host 写",
+    "同一时刻只有一个受管 Host；第二实例聚焦现有窗口后退出",
+    "正常退出先优雅关闭 Host 释放独占目录锁，再兜底 taskkill 进程树，无遗留进程/锁",
+    "卸载仅移除程序文件，%LOCALAPPDATA%\\Daming 的数据/历史/设置保留",
+    "升级清理仅限可弃缓存目录，历史与设置保留",
+    "可选 Magpie 默认关闭，绝不静默安装或启动"
+  ],
+  "environmentCaveat": "安装/升级/卸载/进程回收在 Windows 11 单机（当前主机）真实验证；尚未在全新纯净 Windows 虚拟机复核（同 S9/S11 其他环境口径）。生产代码签名需用户证书。",
+  "fabricated": false
+}

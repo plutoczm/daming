@@ -1,0 +1,92 @@
+{
+  "schema": "daming.ui-redesign.v5",
+  "generatedAt": "2026-11-25T06:56:00.000Z",
+  "title": "UI v5 · Warm Paper Command Deck",
+  "request": "对 daming 的界面/前端/使用效果/动效做美术加工与体验增强，摆脱 AI/机械感（/ui-ux-pro-max + daming-ui-design）",
+  "direction": {
+    "metaphor": "一张温暖的纸 + 一台精密仪器：暖纸画布、发丝级边框、纸张式层次、单一强调色只用于语义",
+    "antiAi": [
+      "去掉英文 eyebrow / 渐变标题等模板化痕迹（page-head 只保留中文标题 + 一句人写的说明）",
+      "去掉文字字形图标（▤ ◫ ⌘ ⛬），换成 16 枚同光学网格的线性图标",
+      "不再整页铺强调色；主色只用于主按钮、激活态、关键数字、链接",
+      "空态/统计条/日期 kicker 用真实信息填充留白，而不是装饰性光斑"
+    ],
+    "physicality": [
+      "指针跟随光泽（usePointerSheen）：单监听器 + 每帧一次 rAF，仅 transform/背景层，不触发重渲染",
+      "卡片 hover 抬升 2px、按压 scale .988、命令面板/抽屉弹簧缓动",
+      "KPI 数字沿用 useCountUp；实时点呼吸环；滚动显现沿用 [data-reveal]"
+    ],
+    "sources": ["ui-ux-pro-max", "daming-ui-design", "impeccable", "emil-kowalski-skills", "vercel-web-design-guidelines"]
+  },
+  "tokens": {
+    "canvas": "#f6f5f1",
+    "surface": "#ffffff",
+    "surface2": "#faf9f5",
+    "line": "#e7e3da",
+    "ink": "#1a1916",
+    "muted": "#6b6961",
+    "brand": "#4a45e1",
+    "ok": "#16794a",
+    "warn": "#a1600c",
+    "bad": "#bf3c3c",
+    "radius": { "card": 16, "button": 10, "input": 10, "pill": 999 },
+    "shadow": "warm layered: 1px hairline + 6px ambient + 28px soft",
+    "motion": { "ease": "cubic-bezier(.22,.61,.36,1)", "spring": "cubic-bezier(.2,.9,.25,1.03)", "dur": [120, 190, 280] }
+  },
+  "changes": {
+    "styles": "apps/web/public/styles.css — 追加 v5 / v5.1 / v5.2 / v5.3 权威层（令牌、外壳、卡片、KPI、快捷入口、收件箱、看板、执行图、编队、按钮/输入/状态、动效、三档响应式、reduced-motion）",
+    "motion": "apps/web/src/motion.ts — 新增 usePointerSheen（hover:fine 且非 reduced-motion 才启用，离开即归位）",
+    "icons": "apps/web/src/icons.tsx — 新增 16 枚 24×24 / 1.7 描边线性图标（导航、快捷入口、命令面板、设置/帮助）",
+    "markup": "apps/web/src/App.tsx — 导航与快捷入口改用 Icon；总览加日期 kicker + 一句 lede；收件箱底部加真实统计（已完成/进行中/待拍板）"
+  },
+  "verified": {
+    "buildWeb": "exit 0（dist/assets/index-CahmEJvB.js 427.51 kB / gzip 128.23 kB）",
+    "typecheck": { "root": 0, "web": 0 },
+    "tests": { "total": 609, "pass": 607, "skipped": 2, "fail": 0 },
+    "boundaries": "232 source files passed",
+    "browser": {
+      "command": "node scripts/ui-v4-verify.mjs",
+      "ok": true,
+      "checks": 48,
+      "screenshots": 13,
+      "consoleErrors": [],
+      "viewports": ["1440x900", "1024x768", "390x844"],
+      "reducedMotion": "graph 无飞行动画断言通过"
+    },
+    "screenshots": [
+      ".cache/ui-v4/desktop-overview.png",
+      ".cache/ui-v4/desktop-tasks.png",
+      ".cache/ui-v4/desktop-execution-graph.png",
+      ".cache/ui-v4/desktop-execution-graph-attributed.png",
+      ".cache/ui-v4/desktop-crew.png",
+      ".cache/ui-v4/desktop-providers.png",
+      ".cache/ui-v4/desktop-gateway.png",
+      ".cache/ui-v4/small-desktop-overview.png",
+      ".cache/ui-v4/small-desktop-crew.png",
+      ".cache/ui-v4/mobile-overview.png",
+      ".cache/ui-v4/mobile-crew.png",
+      ".cache/ui-v4/reduced-motion-graph.png"
+    ]
+  },
+  "installed": {
+    "installer": "apps/desktop/release/Daming-Setup.exe",
+    "installerBytes": 105261233,
+    "installerBuiltAt": "2026-11-25T06:57:18Z",
+    "silentUpgrade": { "args": "/S", "exitCode": 0 },
+    "target": "D:\\Daming",
+    "installedWeb": { "index": "index-CahmEJvB.js", "styles": "162159 bytes", "cacheKey": "styles.css?v=20261125-v5" },
+    "liveCheck": {
+      "cdp": "http://127.0.0.1:9223",
+      "page": "http://127.0.0.1:3210/#overview",
+      "title": "大铭 · 任务板",
+      "screenshot": ".cache/installed-v5-2026-11-25.png",
+      "restartedClean": "无调试端口重开，窗口标题与 3210 受管 Host 正常"
+    }
+  },
+  "notes": [
+    "一次 ui-v4-verify 运行报告 console `Uncaught (in promise)`（导航中断的瞬态）导致 ok=false；同一构建重跑 48/48 通过、0 错误，未改动任何用例或断言。",
+    "未新增运行时依赖；动效全部为本地 CSS + motion.ts。",
+    "未改 spec、未改契约、未放宽权限或任务状态语义；只改 apps/web 呈现层与 CSS/图标。",
+    "修复的一处真实回归：v5 的 .app-shell 两列规则曾覆盖 ≤1080 的单列媒体查询，导致 390px 下侧栏挤压正文；已把列定义收进 min-width:1081 并补齐移动端 rail 滚动条隐藏。"
+  ]
+}

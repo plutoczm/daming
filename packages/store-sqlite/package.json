@@ -1,0 +1,14 @@
+{
+  "name": "@daming/store-sqlite",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@daming/core": "workspace:*",
+    "@daming/ports": "workspace:*",
+    "@daming/governance": "workspace:*"
+  }
+}

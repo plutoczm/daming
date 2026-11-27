@@ -1,0 +1,139 @@
+{
+  "stage": "S13",
+  "module": "model-provider 鑴?agent matrix via Daming gateway",
+  "observedAt": "2026-11-20T01:33:54.792Z",
+  "results": [
+    {
+      "model": "qwen3:8b",
+      "provider": "ollama",
+      "agent": "claude",
+      "status": "pass",
+      "code": 0,
+      "out": "OK",
+      "err": ", or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.\n[claude-code:unrecognized_model] {\"model\":\"qwen3:8b\",\"query_source\":\"sdk\"}\n",
+      "ms": 6500
+    },
+    {
+      "model": "qwen3:8b",
+      "provider": "ollama",
+      "agent": "codex",
+      "status": "pass",
+      "code": 0,
+      "out": "Hi there! Could you please share more details about what you need help with? I'm here to assist!",
+      "err": "Model metadata for `qwen3:8b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\nHi there! Could you please share more details about what you need help with? I'm here to assist!\ntokens used\n216\n",
+      "ms": 4358
+    },
+    {
+      "model": "qwen3:8b",
+      "provider": "ollama",
+      "agent": "dsh",
+      "status": "pass",
+      "code": 0,
+      "out": "OK",
+      "err": "tration_protocol_win.cc:136] TransactNamedPipe: 管道的另一端上无任何进程。 (0xE9)\r\ndsh: reasoning:\n好的，用户让我只回复OK。我需要确认是否理解正确，然后按照指示回复。首先，检查是否有任何潜在的复杂性或隐藏的要求。用户可能在测试我的响应能力，或者希望我确认收到消息。由于用户明确要求只回复OK，我应该直接回应，不添加其他内容。确保回复符合格式要求，不使用任何额外的信息或工具调用。简单明了，符合用户的指示。\n",
+      "ms": 13401
+    },
+    {
+      "model": "gpt-6.2-sol",
+      "provider": "codex-plugin",
+      "agent": "codex",
+      "status": "pass",
+      "code": 0,
+      "out": "How can I help?",
+      "err": "ession id: 01a1f697-16a6-7700-ad0a-74f4ecf660a8\n--------\nuser\n请只回复 OK\nwarning: Model metadata for `gpt-6.2-sol` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\nHow can I help?\ntokens used\n30\n",
+      "ms": 5498
+    },
+    {
+      "model": "gpt-6.2-sol",
+      "provider": "codex-plugin",
+      "agent": "dsh",
+      "status": "pass",
+      "code": 0,
+      "out": "What can I help you with?",
+      "err": "[1120/093424.584:ERROR:third_party\\crashpad\\crashpad\\util\\win\\registration_protocol_win.cc:136] TransactNamedPipe: 管道的另一端上无任何进程。 (0xE9)\r\n",
+      "ms": 3977
+    },
+    {
+      "model": "deepseek-v4.1-flash",
+      "provider": "workbuddy-plugin",
+      "agent": "dsh",
+      "status": "pass",
+      "code": 0,
+      "out": "OK",
+      "err": "[1120/093428.561:ERROR:third_party\\crashpad\\crashpad\\util\\win\\registration_protocol_win.cc:136] TransactNamedPipe: 管道的另一端上无任何进程。 (0xE9)\r\n",
+      "ms": 2599
+    },
+    {
+      "model": "deepseek-v4.1-flash",
+      "provider": "workbuddy-plugin",
+      "agent": "claude",
+      "status": "pass",
+      "code": 0,
+      "out": "OK",
+      "err": "tps://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.\n[claude-code:unrecognized_model] {\"model\":\"deepseek-v4.1-flash\",\"query_source\":\"sdk\"}\n",
+      "ms": 1848
+    },
+    {
+      "model": "deepseek-chat",
+      "provider": "deepseek-api",
+      "agent": "codex",
+      "status": "pass",
+      "code": 0,
+      "out": "你好！看起来你只发了一个“你好”，没有具体的问题或任务。请问有什么我可以帮你的吗？无论是聊天、回答问题、写作、翻译，还是其他需求，我都很乐意协助你！",
+      "err": "\n请只回复 OK\nwarning: Model metadata for `deepseek-chat` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\n你好！看起来你只发了一个“你好”，没有具体的问题或任务。请问有什么我可以帮你的吗？无论是聊天、回答问题、写作、翻译，还是其他需求，我都很乐意协助你！\ntokens used\n47\n",
+      "ms": 1997
+    },
+    {
+      "model": "deepseek-chat",
+      "provider": "deepseek-api",
+      "agent": "dsh",
+      "status": "pass",
+      "code": 0,
+      "out": "OK",
+      "err": "[1120/093435.006:ERROR:third_party\\crashpad\\crashpad\\util\\win\\registration_protocol_win.cc:136] TransactNamedPipe: 管道的另一端上无任何进程。 (0xE9)\r\n",
+      "ms": 2678
+    },
+    {
+      "model": "deepseek-chat",
+      "provider": "deepseek-api",
+      "agent": "claude",
+      "status": "pass",
+      "code": 0,
+      "out": "OK",
+      "err": "see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.\n[claude-code:unrecognized_model] {\"model\":\"deepseek-chat\",\"query_source\":\"sdk\"}\n",
+      "ms": 1022
+    }
+  ],
+  "plugins": [
+    "ollama",
+    "deepseek",
+    "codex",
+    "echo",
+    "kiro",
+    "workbuddy",
+    "zcode"
+  ],
+  "models": [
+    "qwen3:8b",
+    "deepseek-chat",
+    "gpt-6.2-sol",
+    "gpt-6.1-sol",
+    "echo-1",
+    "claude-sonnet-4.5",
+    "claude-haiku-4.5",
+    "deepseek-v4.1-flash",
+    "deepseek-v4-pro",
+    "glm-5.3",
+    "kimi-k3-1",
+    "glm-5.2",
+    "glm-5.3-flash"
+  ],
+  "pluginErrors": [],
+  "creds": {
+    "workbuddy": true,
+    "codex": true,
+    "zcode": true,
+    "kiro": true,
+    "deepseek": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "daming-web",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".cache/preview-live.mjs"],
+      "port": 3210,
+      "url": "http://127.0.0.1:3210"
+    }
+  ]
+}

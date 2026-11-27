@@ -1,0 +1,40 @@
+name: Daming Windows verification
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-windows-acceptance:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install supported Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+
+      - name: Enable pinned package manager
+        shell: pwsh
+        run: |
+          npm install --global corepack@0.35.0
+          corepack enable
+
+      - name: Install frozen dependencies
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Node tests, strict types, architecture boundaries
+        run: corepack pnpm check
+
+      - name: Build production task board
+        run: corepack pnpm build:web
+
+      - name: Authenticated Chrome UI / SSE / background-tab smoke
+        run: corepack pnpm test:web:browser

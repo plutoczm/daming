@@ -1,0 +1,55 @@
+{
+  "task": "S12 桌面壳：一台机器固定一个本机用户，免管理员初始化、免登录",
+  "date": "2026-11-20T13:20:30+08:00",
+  "platform": "Windows 11 (10.0.26200), Electron 33.4.11",
+  "goal": "去掉「创建持久管理员（仅一次）」和登录/MFA 门槛；每个 Windows 账户对应唯一固定的本机所有者，启动即自动登录。",
+  "design": {
+    "mode": "desktop singleUser（仅桌面壳启用；pnpm start:web 保持多用户登录不变）",
+    "hostOption": "startBoardHost({ singleUser: true }) / host --single-user / DAMING_SINGLE_USER=1",
+    "identity": "IdentityRegistry 新增 users.local_machine；首次启动 ensureLocalOwner() 创建 username=local 的唯一所有者（随机密码不外显），升级机则把既有 root 标记为本机用户；openLocalOwnerSession() 免密开会话",
+    "mfa": "本机用户 hasMfa() 恒为真（绑定 Windows 账户/设备），不再要求 TOTP",
+    "web": "SessionView.localMode=true；App 隐藏 IdentityPanel；右上角显示「本机用户」；Codex 手动审批在 localMode 下可用",
+    "token": "每次启动由 Electron 用一次性 bootstrap token 换取 daming_identity 会话（token 仅交给 Electron，不落盘）"
+  },
+  "changes": [
+    "apps/server/src/identity-registry.ts（local_machine 列迁移、ensureLocalOwner/openLocalOwnerSession、hasMfa 豁免）",
+    "apps/server/src/http.ts（singleUser 选项、自动开通本机会话、status 返回 singleUser、setup/login 拒绝、/api/session.localMode）",
+    "packages/contracts/src/index.ts（SessionView.localMode）",
+    "apps/desktop/host/main.mjs（--single-user）",
+    "apps/desktop/electron/main.cjs（SINGLE_USER=true、启动 Host 带 --single-user、每次都用 token URL 自动登录）",
+    "apps/web/src/App.tsx / CodexApprovalPanel.tsx（隐藏身份面板、本机用户徽标、审批可用）",
+    "apps/server/tests/identity-registry.test.ts / identity-http.test.ts（本机用户与免登录 API 测试）",
+    "apps/desktop/tests/desktop.test.ts（单用户启动契约测试）"
+  ],
+  "build": {
+    "installer": "apps/desktop/release/Daming-Setup.exe",
+    "installerBytes": 105194469,
+    "appAsarBytes": 40226,
+    "installTarget": "D:\\Daming",
+    "silentUpgradeExitCode": 0
+  },
+  "runtimeEvidence": {
+    "status": "GET /api/identity/status -> 200 {initialized:true, singleUser:true}",
+    "autoLogin": "GET /?token=… -> 302 Location:/, Set-Cookie daming_identity=…; HttpOnly; SameSite=Strict",
+    "session": {
+      "role": "readwrite",
+      "localMode": true,
+      "mfaEnabled": true,
+      "identity": {
+        "username": "local",
+        "tenantName": "本机工作空间",
+        "memberRole": "owner",
+        "rootAdministrator": true,
+        "localMachine": true
+      }
+    },
+    "tasks": "GET /api/tasks with session cookie -> 200",
+    "setupRejected": "POST /api/identity/setup -> 409 single_user_mode",
+    "uiScreenshot": ".cache/single-user-window2.png（无创建管理员表单，右上角「本机用户」，Codex 手动审批表单可用）",
+    "closeToTray": "WM_CLOSE 后 4 个 Daming 进程 + 1 个受管 Host 存活、窗口不可见；再次启动恢复窗口「大铭 · 任务板」"
+  },
+  "tests": {
+    "targeted": "node --test apps/server/tests/identity-registry.test.ts apps/server/tests/identity-http.test.ts -> 7 pass / 0 fail",
+    "fullCheck": "corepack pnpm check -> 548 tests / 546 pass / 2 skipped / 0 fail, tsc root+web 0, 195 boundaries, exit 0 (.cache/check-singleuser.log)"
+  }
+}

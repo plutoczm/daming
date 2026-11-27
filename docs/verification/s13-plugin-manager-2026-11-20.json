@@ -1,0 +1,14 @@
+{
+  "stage": "S13",
+  "module": "插件市场/管理（本地 install · enable/disable · list · remove）移植",
+  "observedAt": "2026-11-20T10:05:00Z",
+  "impl": {
+    "services/daming-gateway/src/plugin-framework.ts": ["listPlugins(root) 列举+enabled 状态", "installPlugin(srcDir,root) 复制安装（按 manifest.id 命名，重复拒绝）", "setPluginEnabled(dir,bool) / pluginDisabled(dir) 用 .disabled 标记", "removePlugin(root,id)", "loadPlugins 跳过 .disabled 插件"],
+    "scripts/daming-plugin.mjs": "CLI: list [dir] | install <src> | enable <dir> | disable <dir> | remove <id>（root=$DAMING_PLUGINS_DIR 或 ./plugins）"
+  },
+  "realDemo": "node scripts/daming-plugin.mjs list examples/plugins → 列出 5 个插件（codex/echo/kiro/workbuddy/zcode，含 models）",
+  "tests": { "file": "services/daming-gateway/tests/plugin-framework.test.ts", "count": 4, "covers": ["list/enable/disable", "install + duplicate 拒绝 + remove", "loadPlugins 跳过禁用"] },
+  "quality": { "tsc": "0", "tests": "516/0/2", "boundaries": 190 },
+  "portedFromMagpie": "Magpie 插件市场适配器/安装更新能力的本地化版本（Daming 插件框架上的 manager + CLI）",
+  "fabricated": false
+}

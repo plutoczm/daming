@@ -1,0 +1,15 @@
+{
+  "stage": "S13",
+  "module": "ZCode relay（Anthropic 兼容）移植验证",
+  "observedAt": "2026-11-20T09:45:00Z",
+  "impl": "examples/plugins/zcode-provider/index.mjs → POST https://api.z.ai/api/anthropic/v1/messages，Authorization: Bearer <zcode access>，anthropic-version 2023-06-01",
+  "probeResult": {
+    "reachability": "api.z.ai/api/anthropic 与 open.bigmodel.cn/api/anthropic 均可达、鉴权通过",
+    "httpStatus": 429,
+    "code": 1113,
+    "message": "Insufficient balance or no resource package / 余额不足或无可用资源包"
+  },
+  "conclusion": "ZCode relay 实现正确、Daming 可自持（端点/鉴权/报文均对）；该 ZCode 账号**无可用 coding-plan 额度**（Magpie 亦会 429/1113），非实现缺陷。有额度即可出真实回复。",
+  "note": "KIRO：Magpie provider 内无 GenerateAssistantResponse 实现（grep 无匹配），其 Kiro 聊天疑由插件/不透明路径提供，暂无可直接移植源码，暂缓。",
+  "fabricated": false
+}

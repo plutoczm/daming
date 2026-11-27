@@ -1,0 +1,35 @@
+{
+  "stage": "S10",
+  "kind": "unified agent driver (host-side, no Docker) — one entry: runAgent(agent, input)",
+  "observedAt": "2026-11-19T15:06:44.243Z",
+  "results": [
+    {
+      "agent": "dsh",
+      "transport": "ACP (dsh --profile acp)",
+      "status": "completed",
+      "output": "OK.",
+      "sessionId": "5931babf-f9fa-4524-b049-bc7b0fa54f83"
+    },
+    {
+      "agent": "codex",
+      "transport": "CLI stream-json (codex exec --json; ChatGPT backend via proxy)",
+      "status": "completed",
+      "output": "OK.",
+      "sessionId": "01a1f458-8f79-7030-9b09-8574b4b82fc2",
+      "usage": {
+        "input_tokens": 23249,
+        "cached_input_tokens": 15232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6,
+        "reasoning_output_tokens": 0
+      }
+    },
+    {
+      "agent": "claude",
+      "transport": "CLI (claude.exe -p --output-format text -> Magpie /v1/messages)",
+      "status": "completed",
+      "output": "OK"
+    }
+  ],
+  "allOk": true
+}

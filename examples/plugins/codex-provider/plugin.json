@@ -1,0 +1,8 @@
+{
+  "id": "codex",
+  "name": "Codex (ChatGPT subscription)",
+  "version": "1.0.0",
+  "kind": "provider",
+  "models": ["gpt-6.2-sol", "gpt-6.1-sol"],
+  "description": "Codex(ChatGPT 订阅)供应商插件：用 OAuth(env CODEX_ACCESS/CODEX_ACCOUNT_ID) 打 ChatGPT /backend-api/codex/responses（Responses API，带 chatgpt-account-id/originator:codex_cli_rs）。"
+}

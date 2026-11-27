@@ -1,0 +1,19 @@
+{
+  "task": "把 Magpie 已有的供应商、账号、Agent 全部导入 Daming 展示",
+  "date": "2026-11-21T01:15:00+08:00",
+  "implemented": {
+    "server": "apps/server/src/magpie-inventory.ts 新增只读扫描：logins.json + plugin-auth.json → 账号；providers.json + plugin-providers.json → 供应商；stash/已安装 CLI → Agent 检测。绝不返回 token/secret。",
+    "api": "GET /api/magpie/inventory",
+    "providers": "ProvidersPanel 同时合并 model catalog 与 Magpie inventory：显示每个供应商的模型数、可派工数、账号数和账号标签（小新/小白/邮箱等），不再只有 3 个模型来源。",
+    "agents": "AgentsPanel 显示 3 个可绑定 Harness（DSH/Codex/Claude Code），并列出 Magpie 检测到的 Claude Desktop / VS Code / WorkBuddy（仅检测）。"
+  },
+  "runtimeEvidence": {
+    "inventory": "GET /api/magpie/inventory → 10 providers / 11 accounts / detected agents: DeepSeek Harness, Codex, Claude Code, Claude Desktop, VS Code, WorkBuddy",
+    "providers": "workbuddy 5 模型/4 账号（小新/小白）、zcode 3/2、codex 2/1（1956752370@qq.com · Team）、kiro 2/2、ollama 1/0、qoder-cn 1/2 等",
+    "screenshots": [".cache/final7-providers.png", ".cache/final6-agents.png"]
+  },
+  "tests": {
+    "fullCheck": "corepack pnpm check → 549 tests / 547 pass / 2 skipped / 0 fail, tsc root+web 0, 209 boundaries, exit 0 (.cache/check-inventory-final.log)"
+  },
+  "safety": "只读取 Magpie 本机配置；账号只展示 provider/account label/type/是否有 token，不展示 access/refresh token。"
+}

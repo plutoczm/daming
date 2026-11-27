@@ -1,0 +1,18 @@
+{
+  "stage": "S13",
+  "module": "M3 routing: health circuit-breaker + failover (bad -> Ollama)",
+  "observedAt": "2026-11-19T16:29:35.002Z",
+  "ok": true,
+  "chat": {
+    "content": "OK.",
+    "usage": {
+      "prompt_tokens": 20,
+      "prompt_tokens_details": {
+        "cached_tokens": 1
+      },
+      "completion_tokens": 147,
+      "total_tokens": 167
+    }
+  },
+  "usedProvider": "ollama"
+}

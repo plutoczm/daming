@@ -1,0 +1,36 @@
+{
+  "stage": "S10",
+  "component": "Feishu owner-decision channel (REAL)",
+  "observedAt": "2026-11-19T14:05:00Z",
+  "scope": "real Feishu long connection via @larksuiteoapi/node-sdk@1.76.0; owner (本人) clicked approve/pause/accept test cards",
+  "appId": "cli_aa60b1bfeef8dbfe",
+  "ownerOpenIdMasked": "ou_462767…b0728",
+  "connected": true,
+  "cardsSent": 3,
+  "steps": ["approve", "pause", "accept"],
+  "modelRequests": 0,
+  "cashSpent": 0,
+  "checks": {
+    "ownerOnlyOpenId": "callback operator.open_id === bound owner open_id",
+    "singleUseImmutableCard": "each card accepted once; decision written via single Engine writer",
+    "pausePath": "owner pause produced stopped stop-barrier on the synthetic test project",
+    "acceptancePath": "owner accept recorded artifactRevision receipt"
+  },
+  "evidence": {
+    "proof": ".cache/verification/feishu-s10-663745b6-ee72-4980-90c7-5e0eb4dedfad/proof.json",
+    "log": ".cache/verification/feishu-send.log"
+  },
+  "notes": [
+    "本人真实点击三张测试卡（批准/暂停/验收），回调经长连接入库，proof.steps=[approve,pause,accept]。",
+    "全程零模型请求、零现金；仅验证飞书关键决策由 owner 本人最终验收（AC-011-3）。",
+    "App Secret 已轮换，使用本机 .env 当前密钥（不记录明文）。",
+    "SDK 若报 'no im.message.message_read_v1 handle' 为无害告警（未注册消息已读事件处理器）。"
+  ],
+  "stillPendingForS10": [
+    "三 Agent 真实写交付/命令（DSH/Claude 私有模型出口 + 写/命令）",
+    "真实付费供应商的权威现金账单核销（本轮现金记未知待核对，硬限额 ¥3/300 分）"
+  ],
+  "fabricated": false,
+  "realFeishuMessageSent": true,
+  "realModelInferencePerformed": false
+}

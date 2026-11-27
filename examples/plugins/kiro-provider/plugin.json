@@ -1,0 +1,8 @@
+{
+  "id": "kiro",
+  "name": "Kiro (AWS CodeWhisperer)",
+  "version": "1.0.0",
+  "kind": "provider",
+  "models": ["claude-sonnet-4.5", "claude-haiku-4.5"],
+  "description": "Kiro(AWS CodeWhisperer)供应商插件(experimental)：Bearer+tokentype 打 codewhisperer.<region>.amazonaws.com/generateAssistantResponse，profileArn 指定账号；返回 vnd.amazon.eventstream（本插件做事件流帧解析，尽力而为）。"
+}

@@ -1,0 +1,26 @@
+{
+  "task": "UI 动效 / 动画 / 美术层升级（第二轮）",
+  "date": "2026-11-20T14:16:00+08:00",
+  "basis": [
+    "garden-skills web-design-engineer（6.2k★）风格配方：渐变标题 / 柔和光斑 / 细描边 / 层次阴影",
+    "ui-ux-pro-max-skill：语义化设计令牌与对比度约束",
+    "Magic UI（22k★）/ uselayouts（715★）：animated list、微交互节奏",
+    "DSH / Magpie / T3 Code / HiFox 的既有 REA（docs/reference-ui-rea-dsh-hifox-t3-magpie.md）"
+  ],
+  "implemented": {
+    "hooks": "apps/web/src/motion.ts：useCountUp（KPI 数字滚动）、useScrollReveal（IntersectionObserver 滚动显现）、useScrollProgress（顶部进度条）",
+    "css": "apps/web/public/styles.css 追加 motion/art 层：dm-fade-up、dm-float、dm-pulse、dm-shimmer、dm-palette-in、dm-orbit、dm-gradient",
+    "art": "overview 三色 aurora 光斑、rail feTurbulence 噪点、logo conic 光环、空态 SVG 轨道插画",
+    "interaction": "KPI stagger、卡片 hover 抬升、收件箱行位移、按钮按压、命令面板 spring-in、rail 激活过渡、渐变标题、细滚动条",
+    "accessibility": "prefers-reduced-motion 全量降级；无新增运行时依赖"
+  },
+  "evidence": {
+    "screenshot": ".cache/ui-motion.png",
+    "cssVersion": "styles.css?v=20261120b",
+    "installerBytes": 105200710
+  },
+  "tests": {
+    "fullCheck": "corepack pnpm check → 548 tests / 546 pass / 2 skipped / 0 fail, tsc root+web 0, 196 boundaries, exit 0 (.cache/check-ui-motion.log)",
+    "manual": "D:\\Daming 启动后：aurora/渐变标题/卡片 stagger 生效；空态轨道插画显示；滚动进度条随页面移动；切页 view-flash 生效"
+  }
+}

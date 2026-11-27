@@ -1,0 +1,23 @@
+{
+  "stage": "S13",
+  "module": "Daming self-own WorkBuddy subscription (quota + chat)",
+  "observedAt": "2026-11-19T17:13:31.061Z",
+  "ok": true,
+  "status": {
+    "active": true,
+    "todayCheckedIn": true,
+    "streakDays": 12,
+    "todayCredit": 100
+  },
+  "quota": {
+    "platform": "workbuddy",
+    "remainingMinor": 441,
+    "unit": "credits"
+  },
+  "quotaOk": true,
+  "chatContent": "OK",
+  "chatUsage": {
+    "prompt_tokens": 14,
+    "completion_tokens": 1
+  }
+}

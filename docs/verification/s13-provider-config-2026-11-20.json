@@ -1,0 +1,19 @@
+{
+  "stage": "S13",
+  "module": "provider config-driven multi-wire (add providers by config)",
+  "observedAt": "2026-11-20T04:14:52.393Z",
+  "ok": true,
+  "models": [
+    "qwen3:8b",
+    "glm-5.3"
+  ],
+  "zcodeConfigured": true,
+  "ollama": "OK",
+  "zcode": {
+    "error": {
+      "type": "rate_limit_error",
+      "code": "1113",
+      "message": "[1113][Insufficient balance or no resource package. Please recharge.][2026112012151452670f9b22a84fc4]"
+    }
+  }
+}

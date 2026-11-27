@@ -1,0 +1,8 @@
+{
+  "id": "zcode",
+  "name": "ZCode (GLM Coding Plan)",
+  "version": "1.0.0",
+  "kind": "provider",
+  "models": ["glm-5.3", "glm-5.2", "glm-5.3-flash"],
+  "description": "ZCode(GLM Coding Plan)供应商插件：Anthropic 兼容端点 https://api.z.ai/api/anthropic/v1/messages，用 coding-plan key(env ZCODE_KEY) 作 Authorization。"
+}

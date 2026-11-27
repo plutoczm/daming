@@ -1,0 +1,15 @@
+{
+  "stage": "S13",
+  "module": "常驻 /admin 管理面板（可视化增删供应商与插件，类 Magpie）",
+  "observedAt": "2026-11-20T11:30:00Z",
+  "impl": {
+    "services/admin/src/server.ts": "createAdminServer()：常驻 HTTP 面板；HTML UI + JSON API",
+    "APIs": ["GET /admin 面板", "GET/POST/DELETE /api/providers（写 config/providers.json，含校验）", "GET /api/plugins + POST /api/plugins/{enable,disable,remove}?id= + POST /api/plugins/install", "GET /api/accounts（只读）", "GET /api/quotas", "GET /api/models"],
+    "scripts/daming-admin.mjs": "CLI 常驻启动（--port / ADMIN_PORT，默认 3470）"
+  },
+  "realRun": "启动 daming-admin(3471)：/admin 页 4468 bytes(含标题)；POST /api/providers 加 zai(anthropic) → ok；GET 回显；/api/plugins 列 5 个(codex,echo,kiro,workbuddy,zcode)；DELETE zai ok。快照 docs/verification/admin-console-sample.html",
+  "tests": { "file": "services/admin/tests/admin-server.test.ts", "count": 2, "covers": ["providers CRUD + plugins enable/disable/remove + accounts/models + /admin", "非法供应商拒绝"] },
+  "quality": { "tsc": "0", "tests": "527/0/2", "boundaries": 190 },
+  "note": "供应商=配置（写 providers.json，兼容端点随时加）；插件=丢目录即用（enable/disable/install/remove）。类比 Magpie GUI 的供应商/插件/账号管理。",
+  "fabricated": false
+}

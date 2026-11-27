@@ -1,0 +1,14 @@
+{
+  "stage": "S13",
+  "module": "额度刷新移植 — 账号额度读取（WorkBuddy 真实，其余 unknown）",
+  "observedAt": "2026-11-20T11:00:00Z",
+  "impl": {
+    "services/accounts/src/quota.ts": "readQuotas()：对 plugin-auth 中 workbuddy 账号调用 WorkBuddyPlatform.readQuota() 取真实额度；zcode/kiro 等标 unknown（无可用额度接口/账号无额度）",
+    "scripts/daming-accounts.mjs": "新增子命令 quota"
+  },
+  "realRun": "node scripts/daming-accounts.mjs quota → zcode unknown；workbuddy remaining=310 credits；workbuddy#tnpqwu remaining=491 credits；kiro unknown",
+  "tests": { "file": "services/accounts/tests/quota.test.ts", "count": 2, "covers": ["非 workbuddy → unknown 不触网", "空配置 → []"] },
+  "quality": { "tsc": "0", "tests": "521/0/2", "boundaries": 190 },
+  "portedFromMagpie": "Magpie 后台额度刷新能力（WorkBuddy 真实额度读；其他供应商无可用额度接口则标 unknown，不伪造）",
+  "fabricated": false
+}

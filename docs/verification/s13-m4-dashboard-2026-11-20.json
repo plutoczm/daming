@@ -1,0 +1,40 @@
+{
+  "stage": "S13",
+  "module": "M4 usage dashboard (real Ollama call)",
+  "observedAt": "2026-11-19T16:27:54.722Z",
+  "ok": true,
+  "chat": {
+    "content": "OK.",
+    "usage": {
+      "prompt_tokens": 31,
+      "prompt_tokens_details": {
+        "cached_tokens": 1
+      },
+      "completion_tokens": 113,
+      "total_tokens": 144
+    }
+  },
+  "summary": {
+    "requests": 1,
+    "inputTokens": 31,
+    "outputTokens": 113,
+    "cachedTokens": 1,
+    "composition": {
+      "system": 12,
+      "tools": 0,
+      "conversation": 20
+    },
+    "byModel": {
+      "qwen3:8b": {
+        "requests": 1,
+        "inputTokens": 31,
+        "outputTokens": 113,
+        "cachedTokens": 1
+      }
+    }
+  },
+  "recentCount": 1,
+  "dashboardHasModel": true,
+  "dashboardHasCacheHit": true,
+  "dashboardSnippet": " Daming Usage body{font-family:system-ui,-apple-system,sans-serif;margin:24px;color:#111}table{border-collapse:collapse;margin:8px 0}td,th{border:1px solid #ddd;padding:4px 8px;font-size:13px;text-align:left}h1{font-size:18px}h2{font-size:14px;margin-top:20px}.k{color:#555} Daming Gateway · Usage Re"
+}

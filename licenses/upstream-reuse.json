@@ -1,0 +1,237 @@
+[
+  {
+    "repository": "agent-autoloop",
+    "version": "f211ca2de3b14106a9b3b2dcda096072bfdf9783",
+    "original": "kernel/cron.ts",
+    "destination": "packages/source-protocol/src/cron.ts",
+    "changes": []
+  },
+  {
+    "repository": "agent-autoloop",
+    "version": "f211ca2de3b14106a9b3b2dcda096072bfdf9783",
+    "original": "kernel/errors.ts",
+    "destination": "packages/source-protocol/src/errors.ts",
+    "changes": []
+  },
+  {
+    "repository": "agent-autoloop",
+    "version": "f211ca2de3b14106a9b3b2dcda096072bfdf9783",
+    "original": "protocol/validate.ts",
+    "destination": "packages/source-protocol/src/validate.ts",
+    "changes": [
+      "relative import updated"
+    ]
+  },
+  {
+    "repository": "agent-autoloop",
+    "version": "f211ca2de3b14106a9b3b2dcda096072bfdf9783",
+    "original": "tests/cron.test.ts",
+    "destination": "packages/source-protocol/tests/cron.test.ts",
+    "changes": [
+      "relative import updated"
+    ]
+  },
+  {
+    "repository": "agent-autoloop",
+    "version": "f211ca2de3b14106a9b3b2dcda096072bfdf9783",
+    "original": "LICENSE",
+    "destination": "packages/source-protocol/LICENSE",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": "packages/session-driver/src/types.ts",
+    "destination": "packages/session-contracts/src/types.ts",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": "packages/session-driver/src/usage.ts",
+    "destination": "packages/session-contracts/src/usage.ts",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": "packages/session-driver/src/runtime-types.ts",
+    "destination": "packages/session-contracts/src/runtime-types.ts",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": "packages/session-driver/src/transcript.ts",
+    "destination": "packages/session-contracts/src/transcript.ts",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": "packages/session-driver/src/turn-capture.ts",
+    "destination": "packages/session-contracts/src/turn-capture.ts",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": "packages/session-driver/src/identity.ts",
+    "destination": "packages/session-contracts/src/identity.ts",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": "LICENSE",
+    "destination": "packages/session-contracts/LICENSE",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": "NOTICE",
+    "destination": "packages/session-contracts/NOTICE",
+    "changes": []
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": [
+      "scripts/check-renderer-boundary.mjs",
+      "scripts/check-host-boundary.mjs"
+    ],
+    "destination": "scripts/check-boundaries.mjs",
+    "changes": [
+      "adapted AST and module resolution approach to explicit Daming package boundaries",
+      "Windows realpath and junction validation",
+      "retained original MIT license in scripts/LICENSE.lancer"
+    ]
+  },
+  {
+    "repository": "magpie",
+    "version": "1615e5a149acbaed6e9395ddb9775f96d95e4728",
+    "original": "internal/gateway/sse.go",
+    "destination": "services/model-gateway-go/internal/stream/sse.go",
+    "license": "MIT",
+    "changes": [
+      "ReadSSE exported; writer portion removed; bounded engine consumer"
+    ]
+  },
+  {
+    "repository": "magpie",
+    "version": "1615e5a149acbaed6e9395ddb9775f96d95e4728",
+    "original": "internal/gateway/sse_bare.go",
+    "destination": "services/model-gateway-go/internal/stream/sse_bare.go",
+    "license": "MIT",
+    "changes": [
+      "package renamed; standalone carries helper retained"
+    ]
+  },
+  {
+    "repository": "magpie",
+    "version": "1615e5a149acbaed6e9395ddb9775f96d95e4728",
+    "original": [
+      "internal/gateway/ir.go:Usage",
+      "internal/gateway/chat.go:cUsage"
+    ],
+    "destination": "services/model-gateway-go/internal/stream/usage.go",
+    "license": "MIT",
+    "changes": [
+      "function/type closure extracted; ChatUsage/Usage exported"
+    ]
+  },
+  {
+    "repository": "magpie",
+    "version": "1615e5a149acbaed6e9395ddb9775f96d95e4728",
+    "original": [
+      "internal/gateway/responses.go:Usage.responses",
+      "internal/gateway/anthropic.go:aUsage/Usage.anthropic"
+    ],
+    "destination": "services/model-gateway-go/internal/stream/usage_protocol.go",
+    "license": "MIT",
+    "changes": [
+      "usage rendering closure extracted; exported protocol render methods"
+    ]
+  },
+  {
+    "repository": "magpie",
+    "version": "1615e5a149acbaed6e9395ddb9775f96d95e4728",
+    "original": [
+      "internal/gateway/responses.go:renderResponses text branch",
+      "internal/gateway/anthropic.go:renderAnthropic text branch"
+    ],
+    "destination": "services/model-gateway-go/internal/stream/protocol_text.go",
+    "license": "MIT",
+    "changes": [
+      "text-only stream encoder adapted; unsupported tools/thinking not enabled"
+    ]
+  },
+  {
+    "repository": "magpie",
+    "version": "1615e5a149acbaed6e9395ddb9775f96d95e4728",
+    "original": "internal/gateway/sse_bare_test.go",
+    "destination": "services/model-gateway-go/internal/stream/sse_bare_test.go",
+    "license": "MIT",
+    "changes": [
+      "standalone hermetic cases retained; original integration dependencies excluded"
+    ]
+  },
+  {
+    "repository": "agent-autoloop",
+    "version": "f211ca2de3b14106a9b3b2dcda096072bfdf9783",
+    "original": [
+      "kernel/*.ts",
+      "protocol/*.ts",
+      "protocol/schema.json",
+      "LICENSE"
+    ],
+    "destination": "packages/autoloop/src/kernel, packages/autoloop/src/protocol, packages/autoloop/LICENSE",
+    "changes": [
+      "copied verbatim (MIT); package wrapper and Daming Host adapter added separately"
+    ]
+  },
+  {
+    "repository": "lancer",
+    "version": "5c43cbd92f0af58926cd08241a53610d40b494d4",
+    "original": [
+      "packages/light-ui/src/geometry.ts",
+      "packages/light-ui/src/svg.ts",
+      "packages/light-ui/src/light-layer.ts",
+      "packages/light-ui/src/index.ts",
+      "packages/light-ui/src/running-border.css",
+      "packages/light-ui/LICENSE",
+      "packages/light-ui/NOTICE"
+    ],
+    "destination": "apps/web/src/light-ui/*",
+    "changes": [
+      "copied MIT light-ui engine; import specifiers use explicit .ts for Vite"
+    ]
+  },
+  {
+    "repository": "magpie",
+    "version": "1615e5a149acbaed6e9395ddb9775f96d95e4728",
+    "original": [
+      "go.mod",
+      "go.sum",
+      "main.go",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES",
+      "internal/**",
+      "plugins/**",
+      "Makefile",
+      "AGENTS.md",
+      "build/**"
+    ],
+    "destination": "services/damingd/**",
+    "license": "MIT",
+    "changes": [
+      "vendored headless (-tags nogui) source closure as Daming-owned service",
+      "source copied verbatim in phase 1; Daming-specific lifecycle/build wrapper added separately",
+      "full provider/account/routing/catalog/plugin/runtime capability retained by user-approved scope",
+      "Daming Codex subscription mode: read existing login without refresh, personal store write/deletion, or background warm-up/switching; normal upstream mode unchanged",
+      "Native task-scope capability exposes runtime Codex personal-login read-only mode; scope remains fixed prefixed Responses path",
+      "Legacy Keychain test fixture explicitly opts out of encrypted auth storage default"
+    ]
+  }
+]

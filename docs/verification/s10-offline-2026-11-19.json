@@ -1,0 +1,43 @@
+{
+  "stage": "S10",
+  "title": "真实执行贯通与首版真实验收",
+  "date": "2026-11-19",
+  "scope": "offline/deterministic code + tests only — no real vendor billing, no real Feishu send, no paid model call",
+  "checks": {
+    "command": "pnpm check (run-tests + tsc root + tsc web + check-boundaries)",
+    "tests": { "total": 470, "pass": 465, "skip": 5, "fail": 0 },
+    "typecheck": { "root": "0 errors", "web": "0 errors" },
+    "boundaries": { "sourceFiles": 190, "status": "passed" },
+    "exit": 0
+  },
+  "newInThisRound": {
+    "file": "apps/server/src/feishu-channel.ts",
+    "tests": "apps/server/tests/feishu-channel.test.ts (6 tests, all pass)",
+    "capability": "Feishu human-decision channel: sha256(timestamp+nonce+encryptKey+body) signature, verification-token match, timestamp freshness, nonce/event replay rejection, owner-only open_id 本人校验, single-use immutable card, expiry rejection, decision written through the single Engine writer with actorId=project owner, owner pause path."
+  },
+  "deliverableMapping": {
+    "project-control.ts": "S10.1 stop barrier / durable epoch / dispatch fencing (present, tested)",
+    "project-runtime-egress.ts + trusted-paid-egress.ts": "S10.2 per-send permit + container-private egress relay (present, tested)",
+    "governed-tool-turns.ts": "S10.3 governed multi-turn tool/command protocol kernel (present, tested)",
+    "packages/worker-process/src/native-*-session.ts": "S10.3 DSH/Codex/Claude native session adapters (present)",
+    "official-cost-evidence.ts + official-spend-limit.ts + vendor-billing-readonly.ts": "S10.4 official read-only billing/limit evidence (present, tested; NOT authoritative invoice settlement)",
+    "project-spend.ts (governance)": "S10.2/S10.4 per-send reserve/consume/settle/unknown-hold ledger (present, tested)",
+    "project-agents.ts createProjectPreviewCoordinator + task-coordinator.ts": "S10 project coordinator (functional equivalent of planned project-coordinator.ts)",
+    "project-spend.ts + official-spend-limit.ts + tenant-budget.ts": "S10 project quota (functional equivalent of planned project-quota.ts)",
+    "feishu-channel.ts": "S10.5 Feishu send/receive + immutable decision + owner pause (NEW this round, offline-tested)"
+  },
+  "doneWhen": {
+    "threeAgentsRealReadWriteCommand": "PARTIAL — real Docker container init/cancel/restore verified in S6; protocol egress modules present and unit-tested; real paid tool/command turns not run",
+    "pauseCutsInflight": "VERIFIED OFFLINE — project-control stop barrier + trusted-paid-egress pause tests",
+    "authoritativeBillingReconciliation": "NOT MET — read-only Admin API evidence modules exist; no real vendor invoice reconciliation (no admin key/invoice)",
+    "feishuOwnerFinalAcceptance": "PARTIAL — signed/owner-only/immutable channel implemented + tested offline; real Feishu send/receive not performed (no app credentials)"
+  },
+  "realAcceptancePending": [
+    "Feishu custom app App ID / App Secret + owner open_id + public callback URL",
+    "OpenAI Admin API key + project id for authoritative cost/limit evidence (invoice-grade)",
+    "explicit user authorization for one real paid 3-Agent smoke (spec AC-008-2 / REQ-011)"
+  ],
+  "fabricated": false,
+  "realVendorInferencePerformedByThisCheck": false,
+  "realFeishuMessageSent": false
+}

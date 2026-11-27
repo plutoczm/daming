@@ -1,0 +1,22 @@
+{
+  "stage": "S10",
+  "kind": "real in-flight pause: cut a streaming model request mid-flight, verify abort + stopped barrier + no new send",
+  "observedAt": "2026-11-19T14:49:05Z",
+  "agent": "claude-code",
+  "transport": "claude-native container relay -> Magpie /v1/messages (workbuddy/deepseek-v4.1-flash), streaming",
+  "pauseIssuedAtMs": 606,
+  "elapsedMs": 987,
+  "turnAborted": true,
+  "stopBarrierStopped": true,
+  "secondSendBlocked": true,
+  "secondSendError": "Native project lease is fenced",
+  "turnOutcomeError": "container exec terminated when the project was paused mid-stream (expected)",
+  "cashSpent": 0,
+  "checks": {
+    "inFlightCut": "pause at ~600ms aborted the in-flight streaming turn before completion (ended ~987ms)",
+    "stopBarrier": "closeProjectStarts reached 'stopped'",
+    "noNewSend": "a subsequent runClaudeTurn was refused: lease fenced / no active relay"
+  },
+  "evidence": ".cache/verification/s10-inflight-pause.json",
+  "fabricated": false
+}

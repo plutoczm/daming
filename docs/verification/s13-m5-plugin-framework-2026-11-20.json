@@ -1,0 +1,24 @@
+{
+  "stage": "S13",
+  "module": "plugin framework (drop-in providers)",
+  "observedAt": "2026-11-19T17:21:30.777Z",
+  "ok": true,
+  "loadedPlugins": [
+    "echo",
+    "workbuddy"
+  ],
+  "errors": [],
+  "models": [
+    "echo-1",
+    "deepseek-v4.1-flash",
+    "deepseek-v4-pro",
+    "glm-5.3",
+    "kimi-k3-1"
+  ],
+  "echo": "ECHO:hi",
+  "workbuddy": "OK",
+  "workbuddyUsage": {
+    "prompt_tokens": 14,
+    "completion_tokens": 1
+  }
+}

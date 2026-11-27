@@ -1,0 +1,38 @@
+{
+  "stage": "S13",
+  "module": "M7 — Magpie 降为可选，Daming 自持供给为默认（移除依赖）",
+  "observedAt": "2026-11-20T01:10:00Z",
+  "specChange": "REQ-005 经用户批准（回“1”）改为「Daming 自持模型供给」——spec v6，新增 AC-005-3/4；草案见 docs/spec-change-draft-req005.md。",
+  "decoupling": {
+    "noMagpieDependency": "services/daming-gateway/** 与 scripts/daming-gateway-serve.mjs 对 'magpie' 的引用数 = 0（grep 无匹配）",
+    "defaultSupply": "Daming 网关自持：本机 Ollama(qwen3:8b) + 官方 API DeepSeek(deepseek-chat)，配置驱动(DAMING_GATEWAY_PROVIDERS)，无需任何 Magpie 进程",
+    "magpieStatus": "services/damingd 作为**可选** vendored 后端保留（功能不删，符合 vendoring 约定），非必需、不阻塞运行"
+  },
+  "capabilitiesSelfOwned": {
+    "1_供给": "services/daming-gateway（config驱动的多供应商，官方API+本地）",
+    "2_网关": "OpenAI chat/responses + Anthropic messages + models，流式/鉴权",
+    "3_路由": "加权平滑轮询 + 健康熔断 + failover",
+    "4_缓存用量": "/api/usage/summary + /dashboard + 上下文构成",
+    "5_账号签到": "magpie-import 导入 + WorkBuddy 适配器 + 学校 Linux 常驻守护（真实 already）",
+    "6_插件": "ProviderPlugin + ProviderRegistry（供给插件化）",
+    "7_Agent接入": "onboarding 生成 DSH/Codex/Claude 配置 + 真实 Claude 经 Daming 网关"
+  },
+  "evidence": [
+    "docs/verification/s13-m1-gateway-2026-11-20.json",
+    "docs/verification/s13-m1-multiprovider-2026-11-20.json",
+    "docs/verification/s13-m1-config-supply-2026-11-20.json",
+    "docs/verification/s13-m3-failover-2026-11-20.json",
+    "docs/verification/s13-m4-dashboard-2026-11-20.json",
+    "docs/verification/s13-m5-plugins-2026-11-20.json",
+    "docs/verification/s13-m6-agent-onboarding-2026-11-20.json",
+    "docs/verification/s13-m2-linux-workbuddy-2026-11-20.json",
+    "docs/verification/s13-m1-subscription-boundary-2026-11-20.json"
+  ],
+  "residualLimits": [
+    "订阅账号(WorkBuddy/Codex/Kiro/ZCode) chat/额度受平台官方 App 设备签名限制，裸 token 403/10085 → 标“可选/经官方 App”（AC-005-4）",
+    "zcode/kiro 签到平台受限 → 可选，不阻塞"
+  ],
+  "quality": { "tests": "509/509 pass, 0 fail, 2 skip", "tsc": "0", "boundaries": 190 },
+  "conclusion": "7 项能力均由 Daming 自持并留真实证据；Magpie 已降为可选后端、Daming 默认供给零 Magpie 依赖 —— M7 达成。",
+  "fabricated": false
+}

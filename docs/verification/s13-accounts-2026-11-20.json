@@ -1,0 +1,14 @@
+{
+  "stage": "S13",
+  "module": "账号扫描（统一枚举供应商账号与登录态）移植",
+  "observedAt": "2026-11-20T10:20:00Z",
+  "impl": {
+    "services/accounts/src/inventory.ts": "scanAccounts()：读 Magpie logins.json（agent OAuth 登录）+ plugin-auth.json（kiro/zcode/workbuddy 等插件 OAuth），统一为 {provider,id,accountId,type,expiresAt,hasAccess,hasRefresh,detail}",
+    "scripts/daming-accounts.mjs": "CLI: daming-accounts list [--magpie-dir DIR]"
+  },
+  "realRun": "node scripts/daming-accounts.mjs list → 9 个账号：codex(access=Y,acct cb57b785…)、workbuddy×2(access=Y, exp 2026-12-17/2026-12-10, domain)、kiro(access=Y, exp 2026-11-20, profileArn, region us-east-1)、zcode(access=Y)、plugin:* 占位等",
+  "tests": { "file": "services/accounts/tests/inventory.test.ts", "count": 2, "covers": ["logins+plugin-auth 解析（codex/kiro/zcode/workbuddy#suffix）", "缺文件→空且不抛"] },
+  "quality": { "tsc": "0", "tests": "518/0/2", "boundaries": 190 },
+  "portedFromMagpie": "Magpie 账号发现/登录态扫描能力（logins.json + plugin-auth.json + 各供应商）",
+  "fabricated": false
+}

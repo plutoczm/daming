@@ -1,0 +1,46 @@
+{
+  "recordedAt": "2026-11-19T13:55:00+08:00",
+  "scope": "S6.5 authorized real smoke: three LLM+Agent combinations via local Magpie gateway (127.0.0.1:3425). Real inference, single attempt, no automatic retry.",
+  "magpie": { "base": "http://127.0.0.1:3425", "version": "0.1.4445" },
+  "modelLayerProbes": {
+    "workbuddy/deepseek-v4.1-flash": { "wire": "chat/completions", "status": 200, "content": "OK" },
+    "codex/gpt-6.2-sol": { "wire": "chat/completions", "status": 200, "content": "OK" },
+    "workbuddy/deepseek-v4.1-flash@messages": { "wire": "messages", "status": 200, "content": "OK" }
+  },
+  "combos": [
+    {
+      "combo": "workbuddy的deepseek-v4.1flash + DeepSeek Harness",
+      "model": "workbuddy/deepseek-v4.1-flash",
+      "agent": "dsh",
+      "method": "DSH headless; profile agent-default-model = magpie / workbuddy/deepseek-v4.1-flash (user's existing default, config untouched)",
+      "status": "completed",
+      "output": "OK",
+      "usage": { "inputTokens": 210, "outputTokens": 1, "totalTokens": 9939, "cacheReadTokens": 9728 }
+    },
+    {
+      "combo": "workbuddy的deepseek-v4.1flash + Claude Code",
+      "model": "workbuddy/deepseek-v4.1-flash",
+      "agent": "claude-code",
+      "method": "claude-agent-sdk inside daming-native-verify:claude-native container -> Magpie /v1/messages",
+      "status": "completed",
+      "output": "OK",
+      "sessionId": "14cbac63-9208-4869-8bfa-f7dfb393e791"
+    },
+    {
+      "combo": "Codex的gpt-6.2-sol + DeepSeek Harness",
+      "model": "codex/gpt-6.2-sol",
+      "agent": "dsh",
+      "method": "DSH headless with temporary --patch overlay (agent-default-model = magpie-responses / codex/gpt-6.2-sol); user's DSH config untouched",
+      "status": "completed",
+      "output": "OK",
+      "usage": { "inputTokens": 14043, "outputTokens": 5, "totalTokens": 14048 }
+    }
+  ],
+  "notes": [
+    "All three are real model inferences through the local Magpie gateway; each was a single attempt, no automatic retry.",
+    "Models are subscription/quota-funded (WorkBuddy / Codex), not official-API cash; no cash settlement was performed (authoritative billing reconciliation remains S10).",
+    "DSH ignores the DEEPSEEK_MODEL env var; the model is selected by the DSH profile agent-default-model. Combo 1 uses the user's existing default; Combo 3 injects a temporary --patch overlay and does not modify the user's DSH configuration.",
+    "Claude Code here is the pinned claude-agent-sdk / claude binary inside the claude-native image; the host has no standalone claude CLI.",
+    "No credentials or private prompt content are recorded."
+  ]
+}

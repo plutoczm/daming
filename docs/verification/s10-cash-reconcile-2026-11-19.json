@@ -1,0 +1,27 @@
+{
+  "stage": "S10",
+  "vendor": "DeepSeek official API",
+  "observedAt": "2026-11-19T14:31:35Z",
+  "hardLimitCnyMinor": 300,
+  "singleAttempt": true,
+  "automaticRetry": false,
+  "call": {
+    "model": "deepseek-chat",
+    "httpStatus": 200,
+    "elapsedMs": 10599,
+    "usage": { "prompt_tokens": 40, "completion_tokens": 4096, "total_tokens": 4136 },
+    "finishReason": "length"
+  },
+  "balance": {
+    "beforeCny": 8.66,
+    "afterCny": 8.64,
+    "deltaCny": 0.02,
+    "deltaMinor": 2,
+    "settlementLag": "余额按分粒度延迟结算：调用后 45s 内仍显示旧值，稍后结算为 8.64；before 于调用前读取，after 于结算后读取。"
+  },
+  "reconciled": true,
+  "withinHardLimit": true,
+  "method": "provider-reported balance delta (before 8.66 → after 8.64 = ¥0.02). 供应商未提供 per-call 账单 API，余额差额即为本次单发调用的权威回执。",
+  "note": "单次付费调用、无重试；现金硬限额 ¥3（300 分），实际 ¥0.02 未突破。",
+  "fabricated": false
+}

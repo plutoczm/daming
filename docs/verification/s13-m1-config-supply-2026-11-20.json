@@ -1,0 +1,16 @@
+{
+  "stage": "S13",
+  "module": "M1 config-driven supply (providers from config, keys from env)",
+  "observedAt": "2026-11-19T16:30:54.141Z",
+  "ok": true,
+  "providerIds": [
+    "ollama",
+    "deepseek"
+  ],
+  "models": [
+    "qwen3:8b",
+    "deepseek-chat"
+  ],
+  "ollama": "OK.",
+  "deepseek": "OK"
+}

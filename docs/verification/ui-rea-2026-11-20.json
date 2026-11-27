@@ -1,0 +1,51 @@
+{
+  "task": "UI 前端 REA：学习并模仿 DSH / HiFox / T3 Code / Magpie",
+  "date": "2026-11-20T13:30:00+08:00",
+  "method": "REA（Reverse-Engineering Analysis）",
+  "sources": {
+    "DSH": [
+      "D:/dsh/resources/app.asar → dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-CSAdOBx6.css",
+      "D:/dsh/resources/app.asar → dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/index.html"
+    ],
+    "Magpie": [
+      "services/damingd/internal/gui/assets/app.css（:root 令牌、light/dark、segmented/pill/status）",
+      "services/damingd/internal/gui/assets/index.html（aside.sidebar 分组导航 + header.top + main.view）"
+    ],
+    "T3 Code": [
+      "https://newreleases.io/project/github/pingdotgg/t3code/release/v0.0.32#1",
+      "https://github.com/pingdotgg/t3code（thread/worktree/sidebar 行信息）",
+      "docs/reference-t3code-hifox.md"
+    ],
+    "HiFox": [
+      "https://hifox.com/blog/ai-agent-inbox/（收件箱按任务归组 / 主要·其他·稍后·已清除）",
+      "https://help.hifox.com/changelog/2026-09-22（右侧对话面板 / 看板列管理 / 关闭到托盘）",
+      "https://hifox.cn/（任务指派 Agent / 多 Agent 并行 / 收件箱）"
+    ]
+  },
+  "extractedPatterns": {
+    "dsh": ["深色底 #0f1115 + Montserrat", "语义令牌 --dsw-alias-*", "会话侧栏 + 中央流 + composer", "工具/终端/代码独立卡与独立代码字体"],
+    "magpie": ["--bg #f4f4f6 / --card #fff / --line #e3e3e8 / --accent #4f46e5", "左侧分组导航 Work·Models·Insights·Extend", "segmented tabs / pill / soft 状态色 / 失败 x 形点", "列表 + 详情/面板"],
+    "t3code": ["thread 一行承载 provider/model/branch/worktree/状态", "turn 时间线 + 行内审批 + worktree/diff 面板", "一 server 多客户端"],
+    "hifox": ["收件箱按任务归组，一条任务一行，事件用数量", "主要/其他/稍后/已清除", "看板列拖拽排序/隐藏", "任务详情右侧抽屉、工具调用折叠摘要"]
+  },
+  "implemented": {
+    "designTokens": "apps/web/public/styles.css 末尾覆盖层：Magpie 浅色令牌 + 靛蓝 #4f46e5 + soft 状态色 + 12–14px 圆角",
+    "appShell": "apps/web/src/App.tsx：左侧深色 rail（协作/控制面/模型与平台 分组）+ 顶部 page title + Ctrl K",
+    "overview": "KPI（待拍板/任务/Agent/实时）+ HiFox 式收件箱（awaiting_approval/reviewing/blocked 一行一条）+ 运行面状态卡",
+    "commandPalette": "Ctrl/Cmd+K 过滤、Enter 跳转、Esc 关闭；左侧导航同步高亮",
+    "cacheFix": "apps/server/src/http.ts 静态资源改为 no-cache, must-revalidate；apps/web/index.html styles.css 加版本参数，避免升级后命中旧 CSS 导致无样式"
+  },
+  "evidence": {
+    "overviewScreenshot": ".cache/ui-redesign3.png",
+    "commandPaletteScreenshot": ".cache/ui-palette.png",
+    "reaDoc": "docs/reference-ui-rea-dsh-hifox-t3-magpie.md"
+  },
+  "notes": [
+    "只提取 UI 设计模式与令牌，不复制产品文案、账号模型或后端协议。",
+    "既有 Codex 审批、CommandCenter、项目四件套、模型绑定、Magpie 管理、任务详情功能全部保留。"
+  ],
+  "tests": {
+    "fullCheck": "corepack pnpm check → 548 tests / 546 pass / 2 skipped / 0 fail, tsc root+web 0, 196 boundaries, exit 0 (.cache/check-ui.log)",
+    "manual": "安装到 D:\\Daming 后启动：总览/KPI/收件箱/运行面样式生效；Ctrl+K 命令面板打开并列出 8 个跳转项；扫描截图见 evidence"
+  }
+}

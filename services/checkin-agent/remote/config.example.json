@@ -1,0 +1,9 @@
+{
+  "owner": "linux",
+  "host": "school-linux",
+  "intervalMs": 3600000,
+  "platform": { "kind": "simulated" },
+  "accounts": [
+    { "accountId": "demo", "platform": "school", "owner": "linux" }
+  ]
+}

@@ -1,0 +1,32 @@
+﻿<!doctype html><html><head><meta charset="utf-8"><title>Daming Admin</title><style>
+body{font-family:system-ui,-apple-system,sans-serif;margin:20px;color:#111;max-width:1100px}
+h1{font-size:20px}h2{font-size:15px;margin-top:24px;border-bottom:1px solid #eee;padding-bottom:4px}
+table{border-collapse:collapse;margin:8px 0;width:100%}td,th{border:1px solid #ddd;padding:4px 8px;font-size:13px;text-align:left}
+input,select,button{font-size:13px;padding:3px 6px;margin:2px}button{cursor:pointer}
+.k{color:#555}code{background:#f4f4f4;padding:1px 4px;border-radius:3px}.row>*{margin-right:6px}
+</style></head><body>
+<h1>Daming Admin · 供应/插件/账号（可视化增删）</h1>
+<p class="k">常驻管理面板。供应商=兼容端点配置（随时加）；插件=丢目录即用。<a href="/api/models">/api/models</a></p>
+
+<h2>Providers（配置驱动，随时增删）</h2>
+<table id="prov"><thead><tr><th>id</th><th>api</th><th>baseUrl</th><th>models</th><th>keyEnv</th><th></th></tr></thead><tbody></tbody></table>
+<div class="row"><input id="p_id" placeholder="id" size="10"><select id="p_api"><option>openai-completions</option><option>openai-responses</option><option>anthropic-messages</option></select><input id="p_base" placeholder="https://api.example.com" size="30"><input id="p_models" placeholder="model-a,model-b" size="22"><input id="p_key" placeholder="API_KEY_ENV" size="14"><button onclick="addProv()">+ 添加/更新供应商</button></div>
+
+<h2>Plugins（丢目录即用）</h2>
+<table id="plug"><thead><tr><th>on</th><th>id</th><th>kind</th><th>models</th><th></th></tr></thead><tbody></tbody></table>
+<div class="row"><input id="pl_src" placeholder="插件源目录路径 e.g. examples/plugins/echo-provider" size="50"><button onclick="installPlug()">安装插件</button></div>
+
+<h2>Accounts（只读）</h2>
+<table id="acc"><thead><tr><th>provider</th><th>id</th><th>access</th><th>refresh</th><th>accountId</th></tr></thead><tbody></tbody></table>
+
+<script>
+async function j(u,o){const r=await fetch(u,o);return r.json();}
+function td(x){const e=document.createElement('td');e.textContent=x==null?'':String(x);return e;}
+async function loadProv(){const d=await j('/api/providers');const tb=document.querySelector('#prov tbody');tb.innerHTML='';for(const p of (d.providers||[])){const tr=document.createElement('tr');tr.append(td(p.id),td(p.api||'openai-completions'),td(p.baseUrl),td((p.models||[]).join(',')),td(p.apiKeyEnv||''));const c=document.createElement('td');const b=document.createElement('button');b.textContent='删除';b.onclick=async()=>{await j('/api/providers?id='+encodeURIComponent(p.id),{method:'DELETE'});loadProv();loadModels();};c.append(b);tr.append(c);tb.append(tr);}}
+async function addProv(){const body={id:p_id.value.trim(),api:p_api.value,baseUrl:p_base.value.trim(),models:p_models.value.split(',').map(s=>s.trim()).filter(Boolean),apiKeyEnv:p_key.value.trim()||undefined};const r=await j('/api/providers',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(r.error)return alert('错误: '+r.error);loadProv();loadModels();}
+async function loadPlug(){const d=await j('/api/plugins');const tb=document.querySelector('#plug tbody');tb.innerHTML='';for(const p of (d.plugins||[])){const tr=document.createElement('tr');tr.append(td(p.enabled?'✓':'✗'),td(p.manifest?.id||p.name),td(p.manifest?.kind||''),td((p.manifest?.models||[]).join(',')));const c=document.createElement('td');const id=encodeURIComponent(p.manifest?.id||p.name);const be=document.createElement('button');be.textContent=p.enabled?'禁用':'启用';be.onclick=async()=>{await j('/api/plugins/'+(p.enabled?'disable':'enable')+'?id='+id,{method:'POST'});loadPlug();loadModels();};const br=document.createElement('button');br.textContent='移除';br.onclick=async()=>{await j('/api/plugins/remove?id='+id,{method:'POST'});loadPlug();loadModels();};c.append(be,br);tr.append(c);tb.append(tr);}}
+async function installPlug(){const r=await j('/api/plugins/install',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({src:pl_src.value.trim()})});if(r.error)return alert('错误: '+r.error);loadPlug();loadModels();}
+async function loadAcc(){const d=await j('/api/accounts');const tb=document.querySelector('#acc tbody');tb.innerHTML='';for(const a of (d.accounts||[])){const tr=document.createElement('tr');tr.append(td(a.provider),td(a.id),td(a.hasAccess?'Y':'N'),td(a.hasRefresh?'Y':'N'),td(a.accountId||''));tb.append(tr);}}
+async function loadModels(){const d=await j('/api/models');console.log('models',d.models);}
+loadProv();loadPlug();loadAcc();
+</script></body></html>

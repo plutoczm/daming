@@ -1,0 +1,21 @@
+{
+  "stage": "S13",
+  "kind": "订阅账号自持突破（更正 §10）：WorkBuddy chat/额度/签到 可由 Daming 自持",
+  "observedAt": "2026-11-20T01:18:00Z",
+  "rootCause": "早前 403/10085 是“用错主机(www.workbuddy.cn)+裸 Bearer 缺客户端头”。Magpie 解法的核心（opencode-workbuddy-auth sign()/call()）：打 https://copilot.tencent.com，带 WorkBuddy 客户端头 User-Agent: WorkBuddy/5.9.3、X-Product:SaaS、X-User-Id、X-Domain、X-IDE-*、X-Agent-*、X-Requested-With:XMLHttpRequest。",
+  "realProofWin11": {
+    "checkinStatus": "200 {active:true,today_checked_in:true,streak_days:12,today_credit:100}",
+    "resourceSummary": "200 · Packages CycleRemainCapacity 合计≈441 credits",
+    "chat": "POST /v2/chat/completions 200 SSE · content='OK' · usage 14/1（经 Daming 网关 + WorkBuddy ProviderPlugin）"
+  },
+  "damingImpl": {
+    "services/checkin-agent/src/workbuddy.ts": "WorkBuddyPlatform：正确主机+客户端头；status/checkin/quota(Packages 解析)",
+    "services/checkin-agent/src/workbuddy-plugin.ts": "workBuddyChatPlugin：订阅账号作为 Daming 网关 ProviderPlugin，drain SSE→OpenAI JSON",
+    "services/checkin-agent/remote/checkin-daemon.mjs": "守护同套头；workbuddyQuota 读数"
+  },
+  "linuxEgressBlocker": "学校 Linux(gdwyy70) 出口防火墙拒绝 copilot.tencent.com(120.240.157.64) 与 www.workbuddy.cn：ECONNREFUSED / AggregateError。属该校机器网络限制，非 Daming 能力问题；换可达网络或走代理隧道即可。",
+  "conclusion": "WorkBuddy 订阅账号的 chat/额度/签到 均可由 Daming 自持（无需官方 App 设备令牌），已在 Win11 真机四路验证；其他订阅(Codex/Kiro/ZCode)按同法逐个移植。",
+  "quality": { "tests": "509/509 pass,0 fail,2 skip", "tsc": "0", "boundaries": 190 },
+  "evidenceFiles": ["docs/verification/s13-m2-wb-selfsupply-2026-11-20.json"],
+  "fabricated": false
+}

@@ -1,0 +1,43 @@
+{
+  "stage": "S13",
+  "module": "addable providers: config (compatible) + plugins (non-standard)",
+  "observedAt": "2026-11-20T04:17:02.677Z",
+  "ok": true,
+  "configProviders": [
+    "ollama",
+    "zcode"
+  ],
+  "pluginProviders": [
+    "codex",
+    "echo",
+    "kiro",
+    "workbuddy"
+  ],
+  "pluginErrors": [],
+  "models": [
+    "qwen3:8b",
+    "glm-5.3",
+    "gpt-6.2-sol",
+    "gpt-6.1-sol",
+    "echo-1",
+    "claude-sonnet-4.5",
+    "claude-haiku-4.5",
+    "deepseek-v4.1-flash",
+    "deepseek-v4-pro",
+    "kimi-k3-1"
+  ],
+  "listedModels": [
+    "qwen3:8b",
+    "glm-5.3",
+    "gpt-6.2-sol",
+    "gpt-6.1-sol",
+    "echo-1",
+    "claude-sonnet-4.5",
+    "claude-haiku-4.5",
+    "deepseek-v4.1-flash",
+    "deepseek-v4-pro",
+    "kimi-k3-1"
+  ],
+  "ollama": "OK",
+  "missing": []
+}

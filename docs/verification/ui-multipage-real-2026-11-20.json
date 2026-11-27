@@ -1,0 +1,45 @@
+{
+  "task": "多页面重构 + 真实供应商/Agent + 项目目录接入 + 移除红圈离线内容",
+  "date": "2026-11-20T22:45:00+08:00",
+  "requirements": [
+    "红圈内容不再出现在 UI：Codex 单次手动审批、离线多 Agent 指挥中心、项目四件套、模型绑定旧表单",
+    "Daming 必须真实，不再离线演示",
+    "项目开始只接收 spec.md + plan_baseline.md（用户目录/上传），plan_runtime 与 progress 由 Agent 维护",
+    "UI 改为多页面：供应商、任务、项目、Agent 等各自独立页面",
+    "模型归供应商提供；Agent 只是 Harness，可绑定供应商任意 LLM",
+    "参考高星前端/UI skills + Magpie 截图的暖色、留白、头像、卡片风格"
+  ],
+  "implemented": {
+    "multiPage": "App 改为 activeSection 单页渲染：总览 / 收件箱 / 任务 / 项目 / 供应商 / Agent / 自动化 / 平台状态；不再一页纵向拼贴",
+    "providers": "ProvidersPanel.tsx 从 /api/model-binding 的真实 catalog 按 providerId 聚合：workbuddy 5、zcode 3、codex 2、kiro 2、ollama 1（均为真实 Magpie 账号/本地运行时）",
+    "agents": "AgentsPanel.tsx：DSH / Codex / Claude Code 三个 Harness 卡片；供应商→模型两级选择，真实调用 /api/model-binding 绑定；已实测 DSH → workbuddy/deepseek-v4-pro",
+    "projects": "ProjectsPanel.tsx + /api/projects/intake + /api/projects：两种入口（接入已有目录 / 新建空目录）；Host 读取 spec.md + plan_baseline.md，plan_runtime/progress 不由用户填写",
+    "realMagpie": "apps/desktop/host/main.mjs 自动读取 ~/.config/magpie/caller-keys.json，附加到已运行的 Magpie 3425（不覆盖用户 Magpie），UI 显示 13 个真实模型",
+    "removed": "从 UI 移除 CodexApprovalPanel、CommandCenter、ProjectInputPanel、ModelBindingPanel；任务创建默认真实本地交付/真实 Codex/真实 DSH，无 fixture 选项",
+    "design": "暖灰画布 #f6f5f2、16px 圆角、细边框、头像色块、状态 pill、充足留白；参考 Magpie 桌面截图（上下文窗口、用量、网关、隐私设置、Agent 列表、供应商列表）",
+    "skills": "新增项目技能 skills/daming-ui-design 与 skills/ui-ux-pro-max（高星技能加工版）"
+  },
+  "evidence": {
+    "providers": ".cache/cdp-providers.png",
+    "agents": ".cache/cdp-agents.png",
+    "agentsBound": ".cache/cdp-agents-bound.png",
+    "projects": ".cache/cdp-projects2.png",
+    "projectsFinal": ".cache/final-projects.png",
+    "tasks": ".cache/final-tasks.png",
+    "agentsFinal": ".cache/final-agents.png",
+    "providersFinal": ".cache/final-providers2.png",
+    "platform": ".cache/cdp-platform.png",
+    "inbox": ".cache/cdp-inbox.png"
+  },
+  "runtimeChecks": {
+    "providersCatalog": "GET /api/model-binding -> 5 providers / 13 models (workbuddy,zcode,codex,kiro,ollama)",
+    "agentBinding": "UI 选择 workbuddy + workbuddy/deepseek-v4-pro → 点击绑定 → 返回「已绑定：dsh → workbuddy/deepseek-v4-pro」",
+    "projectIntake": "POST /api/projects/intake（真实目录含 spec.md/plan_baseline.md）→ 201 {projectId:demo-login-page, revision:1, specCount:2, planCount:3}；GET /api/projects 返回目录行",
+    "projectUpload": "POST /api/projects/intake-upload（specText/planBaselineText）→ 201 {projectId:upload-demo, specCount:2, planCount:3}；文件写入 LOCALAPPDATA\\Daming\\projects\\upload-demo",
+    "magpieAttach": "平台状态显示 version=existing-gateway、13 个模型、connected_existing_magpie_without_modifications"
+  },
+  "tests": {
+    "projectInput": "node --test apps/server/tests/project-input.test.ts -> 10 pass / 0 fail（新增目录登记用例）",
+    "fullCheck": "corepack pnpm check → 549 tests / 547 pass / 2 skipped / 0 fail, tsc root+web 0, 202 boundaries, exit 0 (.cache/check-final.log)"
+  }
+}

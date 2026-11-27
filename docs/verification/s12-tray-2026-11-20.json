@@ -1,0 +1,60 @@
+{
+  "task": "S12 桌面壳增强：关闭窗口隐藏到系统托盘（微信式后台运行）",
+  "date": "2026-11-20T13:14:00+08:00",
+  "platform": "Windows 11 (10.0.26200), Electron 33.4.11",
+  "changes": {
+    "apps/desktop/electron/main.cjs": [
+      "创建系统托盘 Tray + 右键菜单（打开主界面 / 隐藏到托盘 / 退出大铭），左键切换窗口",
+      "BrowserWindow close 事件在非真实退出时 preventDefault 并 hide()，不销毁窗口",
+      "window-all-closed 仅在无托盘时兜底退出，托盘存在时保持后台运行",
+      "second-instance 统一走 showMainWindow()，重复启动可唤醒隐藏窗口",
+      "before-quit / 托盘退出 / Host 崩溃统一经 isQuitting 真实退出并优雅停止受管 Host"
+    ],
+    "apps/desktop/electron/assets/tray-{16,20,24,32,40,48,64,256}.png": "蓝底圆角「铭」字托盘/窗口图标（Pillow 不可用，改用 System.Drawing 生成）",
+    "apps/desktop/tests/desktop.test.ts": "新增托盘/关闭行为契约测试 + 图标资产存在性检查"
+  },
+  "build": {
+    "installer": "apps/desktop/release/Daming-Setup.exe",
+    "installerBytes": 105193567,
+    "appAsarBytes": 39848,
+    "installTarget": "D:\\Daming",
+    "silentUpgradeExitCode": 0
+  },
+  "behaviorEvidence": [
+    {
+      "step": "启动 D:\\Daming\\Daming.exe（清除继承的 ELECTRON_RUN_AS_NODE）",
+      "windowTitle": "大铭 · 任务板",
+      "windowVisible": true,
+      "damingProcesses": 4,
+      "managedHostNodes": 1
+    },
+    {
+      "step": "向主窗口 PostMessage WM_CLOSE（等价点击右上角 X）",
+      "afterClose": {
+        "damingProcesses": 4,
+        "managedHostNodes": 1,
+        "windowVisible": false,
+        "note": "进程与受管 Host 均存活，窗口仅隐藏 → 满足不退出、后台运行"
+      }
+    },
+    {
+      "step": "再次启动 Daming.exe 触发单实例 second-instance",
+      "afterRelaunch": {
+        "damingProcesses": 4,
+        "managedHostNodes": 1,
+        "windowTitle": "大铭 · 任务板",
+        "windowVisible": true,
+        "note": "隐藏窗口被重新唤醒，仍为唯一受管 Host"
+      }
+    }
+  ],
+  "tests": {
+    "command": "node --test apps/desktop/tests/desktop.test.ts",
+    "result": "15 pass / 0 fail",
+    "fullCheck": "corepack pnpm check → 545 tests / 543 pass / 2 skipped / 0 fail, tsc root+web 0, 195 boundaries, exit 0"
+  },
+  "notes": [
+    "测试时 shell 继承了 ELECTRON_RUN_AS_NODE=1，会导致 Electron 以纯 Node 方式启动；已在该环境下清除后再启动，用户从资源管理器/开始菜单启动不受影响。",
+    "托盘图标无法用图标加载时按 fail-safe 处理：关闭窗口会走正常退出，避免留下不可见进程。"
+  ]
+}

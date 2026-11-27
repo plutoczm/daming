@@ -1,0 +1,27 @@
+{
+  "stage": "S11",
+  "title": "Linux 独立签到 / 配额采集（辅助，可选 REQ-013）",
+  "observedAt": "2026-11-19T15:40:00Z",
+  "scope": "policy + agent + encrypted credential store + simulated platform + local HTTP E2E; real school platform needs user environment",
+  "deliverables": {
+    "packages/governance/src/checkin-policy.ts": "逐账号/平台授权、可撤销、owner(linux/windows)标注、频率限流、动作白名单；captcha/terms -> needs_human(不绕过/不自动重试)",
+    "services/checkin-agent/src/platform.ts": "CheckinPlatform 接口 + SimulatedPlatform + HttpCheckinPlatform(只读 HTTP 客户端)",
+    "services/checkin-agent/src/credentials.ts": "LocalCredentialStore：AES-256-GCM 静态加密、0600、错误口令拒绝、list 仅元数据",
+    "services/checkin-agent/src/agent.ts": "CheckinAgent：仅对 owner 匹配且授权未撤销账户执行；只读签到+配额；验证码/条款转人工"
+  },
+  "tests": {
+    "files": ["packages/governance/tests/checkin-policy.test.ts", "services/checkin-agent/tests/checkin-agent.test.ts"],
+    "count": 11, "pass": 11, "fail": 0,
+    "covers": ["撤销后无动作", "captcha/terms 转人工不绕过不重试", "owner mismatch 不动作", "频率同天限流", "过期/动作未授权拒绝", "凭据静态加密+错误口令拒绝", "本机 HTTP 平台端到端(claim + quota)"]
+  },
+  "guarantees": [
+    "撤销授权后 canAct=false → 不调用平台（无动作）",
+    "验证码/条款 → needs_human，绝不自动求解、绝不自动重试",
+    "只读配额/签到，不接管主任务或全局审批",
+    "执行所有者标注：linux 与 windows 各自只动自己账户",
+    "凭据 AES-256-GCM 加密静态存储，明文不入盘"
+  ],
+  "realPlatformPending": "真实学校平台需用户提供该平台的授权与凭据后另行验收（同 S9 其他环境处理）；本阶段完成策略+agent+加密存储+模拟与本机 HTTP 真实网络路径 E2E。",
+  "quality": { "tests": "481/479/0/2", "tsc": "0 errors", "boundaries": 189 },
+  "fabricated": false
+}

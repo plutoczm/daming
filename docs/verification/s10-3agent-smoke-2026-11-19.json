@@ -1,0 +1,46 @@
+{
+  "stage": "S10",
+  "kind": "real multi-agent model turns (TEXT) — capability proven; per-Agent write/command still pending",
+  "observedAt": "2026-11-19T14:21:21Z",
+  "cashHardLimitApprovedCnyMinor": 300,
+  "agents": [
+    {
+      "agent": "dsh",
+      "route": "DSH headless → Magpie 127.0.0.1:3425 → workbuddy/deepseek-v4.1-flash",
+      "result": "completed", "output": "OK",
+      "usage": { "inputTokens": 2661, "outputTokens": 1 },
+      "billing": "subscription(WorkBuddy)", "cashSpent": 0,
+      "isolation": "host headless process (受信执行/人工监督，非容器)"
+    },
+    {
+      "agent": "codex",
+      "route": "Magpie pinned codex-subscription → codex/gpt-6.1-sol",
+      "result": "completed", "output": "OK",
+      "usage": { "input_tokens": 17020, "output_tokens": 5 },
+      "billing": "chatgpt-subscription", "cashSpent": 0,
+      "isolation": "Magpie pinned scope verified; temporary key revoked",
+      "proof": ".cache/verification/codex-subscription-live-2026-11-16.json"
+    },
+    {
+      "agent": "claude-code",
+      "route": "claude-native container (claude-agent-sdk) → Magpie 127.0.0.1:3425 /v1/messages → workbuddy/deepseek-v4.1-flash",
+      "result": "completed", "output": "OK", "sessionId": "8e209912-24aa-4346-9856-9a9aaeaf4924",
+      "elapsedMs": 1915, "billing": "subscription(WorkBuddy)", "cashSpent": 0,
+      "isolation": "native-offline-v2 Docker container (network none, uid65532, read-only rootfs)",
+      "proof": ".cache/verification/s10-real-claude-deepseek.json"
+    }
+  ],
+  "keyFinding": "/v1/models 的 native_endpoints 只表示**上游原生**端点；Magpie 的 /v1/messages 会把 chat/completions 供应商翻译成 Anthropic Messages 线协议。因此 workbuddy/deepseek-v4.1-flash 可被 Claude Code 使用（实测 POST /v1/messages → 200 text/event-stream）。",
+  "cash": {
+    "deepseekOfficialMicroCall": "与这三轮无关；另做过一次 9+1 token 官方现金调用 OK，余额 8.68 两位小数不变 → 记未知待核对"
+  },
+  "stillPendingForS10": [
+    "每个 Agent 一次真实**写交付/命令**（工具轮次，落盘产物），而不仅是文本推理",
+    "真实付费供应商的权威现金账单核销"
+  ],
+  "notes": [
+    "三轮均单次、无自动重试；未改写个人 Agent 配置。",
+    "这些是真实模型推理，但尚不满足 AC-011-1 的『真实写交付/命令』。"
+  ],
+  "fabricated": false
+}

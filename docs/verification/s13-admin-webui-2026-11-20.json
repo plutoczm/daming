@@ -1,0 +1,15 @@
+{
+  "stage": "S13",
+  "module": "Web UI（管理面板）移植 — /admin 可视化账号·插件·模型·用量",
+  "observedAt": "2026-11-20T10:40:00Z",
+  "impl": {
+    "gateway routes": ["GET /api/accounts → scanAccounts()（services/accounts）", "GET /api/plugins → listPlugins(pluginsDir)", "GET /admin → adminHtml(账号表+插件表+模型目录+用量概览)", "GET /dashboard → 用量 dashboard（既有）"],
+    "options": "GatewayOptions 新增 pluginsDir",
+    "snapshotScript": "scripts/s13-admin-snapshot.mjs 生成静态快照"
+  },
+  "realRun": "GET /admin 快照写入 docs/verification/admin-sample-2026-11-20.html（2375 bytes），含 Accounts (9) / Plugins (5) / Model catalog / 用量缓存命中",
+  "tests": { "file": "services/daming-gateway/tests/admin.test.ts", "count": 1, "covers": ["/api/accounts 返回数组", "/api/plugins 返回数组", "/admin 含 Daming Admin/Accounts/Plugins/Model catalog"] },
+  "quality": { "tsc": "0", "tests": "519/0/2", "boundaries": 190 },
+  "portedFromMagpie": "Magpie GUI 的能力概览/账号/插件/用量视图，Daming 侧以 /admin 面板 + 若干 JSON API 呈现",
+  "fabricated": false
+}

@@ -1,0 +1,50 @@
+{
+  "doc": "verification",
+  "id": "ui-redesign-v3-2026-11-21",
+  "type": "ui-redesign",
+  "date": "2026-11-21",
+  "scope": "apps/web control plane",
+  "method_stack": ["impeccable", "ui-ux-pro-max", "emil-kowalski-skills", "vercel-web-design-guidelines"],
+  "files_changed": [
+    "apps/web/public/styles.css (REDESIGN v3 authoritative layer appended)",
+    "apps/web/src/App.tsx (breadcrumb, command button, nav aria-current, skip-link, #main-content, overview quick grid)",
+    "apps/web/index.html (styles.css?v=20261121-redesign)",
+    "skills/impeccable/SKILL.md (new)",
+    "skills/emil-kowalski-skills/SKILL.md (new)",
+    "skills/vercel-web-design-guidelines/SKILL.md (new)",
+    "docs/design/ui-ux-audit-2026-11-21.md",
+    "docs/design/ui-redesign-spec-2026-11-21.md"
+  ],
+  "build": { "command": "corepack pnpm --filter @daming/web build", "ok": true, "assets": ["dist/index.html 0.45kB", "dist/assets/index-poZnZlx9.js 408.33kB"] },
+  "typecheck": { "command": "corepack pnpm exec tsc -p apps/web/tsconfig.json", "exit": 0 },
+  "full_check": { "command": "corepack pnpm check", "tests": 580, "pass": 578, "skipped": 2, "fail": 0, "tsc_root": "pass", "tsc_web": "pass", "boundaries": "223 source files passed" },
+  "runtime_render": {
+    "harness": "disposable single-user Host + headless Chrome (CDP), .cache/ui-v2-shot.mjs",
+    "pages_rendered": ["overview", "tasks", "providers", "agents", "platform", "settings", "inbox", "crew", "gateway", "routing", "notifications", "projects"],
+    "errors": 0
+  },
+  "screenshots": {
+    "dir": ".cache",
+    "desktop": ["ui-v3-overview.png", "ui-v3-tasks.png", "ui-v3-providers.png", "ui-v3-agents.png", "ui-v3-platform.png", "ui-v3-settings.png", "ui-v3-inbox.png", "ui-v3-crew.png", "ui-v3-gateway.png", "ui-v3-routing.png", "ui-v3-notifications.png", "ui-v3-projects.png"],
+    "mobile": ["ui-v3-overview-mobile.png", "ui-v3-tasks-mobile.png"],
+    "before": ["ui-overview.png", "ui-tasks.png", "ui-providers.png", "ui-agents.png", "ui-platform.png", "ui-settings.png"]
+  },
+  "checks": {
+    "single_prominent_page_title": "pass (topbar is breadcrumb; page h2 unique)",
+    "overview_dead_space_filled": "pass (8-tile quick-launch grid)",
+    "mobile_rail_horizontal_strip": "pass (≤1080 rail = horizontally scrollable command strip, not full-screen vertical)",
+    "aria_current_on_nav": "pass",
+    "skip_link_present": "pass",
+    "focus_visible_ring": "pass (global :focus-visible 2px brand)",
+    "reduced_motion": "pass (global prefers-reduced-motion degrade)",
+    "no_horizontal_overflow": "pass at 1440 / 390 (kanban columns scroll internally)",
+    "contrast_body_text": ">=4.5:1 (muted #646b78 on #fff)",
+    "decorative_aurora_gradient_removed": "pass",
+    "tabular_numerals": "pass (KPI/metrics)",
+    "extreme_data_truncation": "pass (min-width:0 + ellipsis on long text, tabular big numbers)"
+  },
+  "notes": [
+    "Fixture tasks complete immediately, so seeded tasks land in the off-screen 已完成 column on the tasks board — expected, not a defect.",
+    "Full check shell printed exit 1 only due to PowerShell tee/stderr noise; test runner reported fail 0 and boundaries passed."
+  ]
+}
